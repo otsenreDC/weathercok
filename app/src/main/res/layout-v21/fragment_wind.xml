@@ -9,7 +9,9 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimaryDark" />
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        tools:ignore="UnusedAttribute" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -20,58 +22,64 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
-    <TextView
-        android:id="@+id/text_view_speed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Text" />
-
-    <TextView
-        android:id="@+id/text_view_direction"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="subtitle" />
-
-    <TextView
-        android:id="@+id/text_view_orientation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="orientation" />
-
-    <Button
-        android:id="@+id/button_update_info"
-        style="@style/AppTheme"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Actualizar direccion" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <io.bananalabs.weathercok.CompassView
-            android:id="@+id/compass_view_heading"
+        <TextView
+            android:id="@+id/text_view_speed"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center" />
+            android:layout_height="wrap_content"
+            android:text="Text" />
 
-        <io.bananalabs.weathercok.ArrowView
-            android:id="@+id/arrow_view_vane"
+        <TextView
+            android:id="@+id/text_view_direction"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="95dp"
-            android:padding="2dp" />
+            android:layout_height="wrap_content"
+            android:text="subtitle" />
+
+        <TextView
+            android:id="@+id/text_view_orientation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="orientation" />
 
         <Button
+            android:id="@+id/button_update_info"
             style="@style/AppTheme"
-            android:elevation="10dp"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Actualizar direccion" />
 
-    </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <io.bananalabs.weathercok.CompassView
+                android:id="@+id/compass_view_heading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center" />
+
+            <io.bananalabs.weathercok.ArrowView
+                android:id="@+id/arrow_view_vane"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="95dp"
+                android:padding="2dp" />
+
+            <Button
+                style="@style/AppTheme"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom|end"
+                android:elevation="10dp" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/text_view_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="location" />
 
     </LinearLayout>
 
