@@ -29,6 +29,9 @@ public class Vane {
         public void onWindFetched(Vane vane);
     }
 
+    /**
+     * Vane's changes listener
+     */
     private VaneListener vaneListener;
 
     /**
