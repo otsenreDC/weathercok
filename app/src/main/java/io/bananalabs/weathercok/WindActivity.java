@@ -36,7 +36,7 @@ public class WindActivity extends ActionBarActivity {
         setContentView(R.layout.activity_wind);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new VaneFragment())
                     .commit();
         }
 
@@ -45,9 +45,9 @@ public class WindActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == PlaceholderFragment.REQUEST_RESOLVE_ERROR) {
+        if (requestCode == VaneFragment.REQUEST_RESOLVE_ERROR) {
             FragmentManager fragmentManager = getFragmentManager();
-            PlaceholderFragment placeholderFragment = (PlaceholderFragment) fragmentManager.findFragmentById(R.id.container);
+            VaneFragment placeholderFragment = (VaneFragment) fragmentManager.findFragmentById(R.id.container);
             placeholderFragment.mResolvingError = false;
             if (resultCode == RESULT_OK) {
                 if (!placeholderFragment.mGoogleApiClient.isConnecting() &&
@@ -80,7 +80,7 @@ public class WindActivity extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment implements Vane.VaneListener, SensorEventListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    public static class VaneFragment extends Fragment implements Vane.VaneListener, SensorEventListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
         private final String LOG_TAG = this.getClass().getSimpleName();
 
@@ -105,7 +105,7 @@ public class WindActivity extends ActionBarActivity {
         public boolean mResolvingError;
         private Location mLocation;
 
-        public PlaceholderFragment() {
+        public VaneFragment() {
         }
 
         @Override
