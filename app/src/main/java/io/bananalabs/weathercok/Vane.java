@@ -55,10 +55,11 @@ public class Vane {
         this.vaneListener = listener;
     }
 
-    public void fetchForecast() {
-        new AsyncTask<Void, Void, String>() {
+    public void fetchForecast(Double latitude, Double longitude) {
+
+        new AsyncTask<Double, Void, String>() {
             @Override
-            protected String doInBackground(Void... voids) {
+            protected String doInBackground(Double... locationData) {
                 HttpURLConnection connection = null;
                 BufferedReader reader = null;
 
@@ -66,8 +67,8 @@ public class Vane {
 
                 String format = "json";
                 String units = "metric";
-                String longitude = "18.463806";
-                String latitude = "-69.965299";
+                String longitude = locationData[0].toString();
+                String latitude = locationData[1].toString();
 
                 try {
                     final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/weather?";
@@ -123,7 +124,7 @@ public class Vane {
 
                 publishResults();
             }
-        }.execute();
+        }.execute(latitude, longitude);
     }
 
     private void extractWindFromForecast(String json) {

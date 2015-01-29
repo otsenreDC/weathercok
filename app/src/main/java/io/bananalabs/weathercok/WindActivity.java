@@ -117,7 +117,6 @@ public class WindActivity extends ActionBarActivity {
             this.mArrowView = (ArrowView) rootView.findViewById(R.id.arrow_view_vane);
 
             this.vane = new Vane(this);
-            this.vane.fetchForecast();
             this.speedTextView = (TextView) rootView.findViewById(R.id.text_view_speed);
             this.directionTextView = (TextView) rootView.findViewById(R.id.text_view_direction);
             this.orientationTextView = (TextView) rootView.findViewById(R.id.text_view_orientation);
@@ -126,7 +125,11 @@ public class WindActivity extends ActionBarActivity {
             this.updateInfoButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    vane.fetchForecast();
+                    if (mLocation != null) {
+                        vane.fetchForecast(Double.valueOf(19.0), Double.valueOf(-69));
+                    } else {
+                        Toast.makeText(getActivity(), getActivity().getString(R.string.msg_location_not_availble), Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
 
@@ -204,7 +207,9 @@ public class WindActivity extends ActionBarActivity {
         // ConnectionCallbacks
         @Override
         public void onConnected(Bundle bundle) {
-            this.mLocation = LocationServices.FusedLocationApi.getLastLocation(this.mGoogleApiClient);
+
+            this.setLocation(LocationServices.FusedLocationApi.getLastLocation(this.mGoogleApiClient));
+
             if (this.mLocation != null) {
                 if (this.mLocationTextView != null) {
                     this.mLocationTextView.setText("" + this.mLocation.getLatitude() + " - " +
@@ -236,10 +241,10 @@ public class WindActivity extends ActionBarActivity {
             }
         }
 
-        public void setmLocation(Location mLocation) {
+        public void setLocation(Location mLocation) {
             this.mLocation = mLocation;
             if (this.vane != null) {
-                Toast.makeText(getActivity(), "Ready to ask for wind info", Toast.LENGTH_SHORT).show();
+                this.vane.fetchForecast(this.mLocation.getLatitude(), this.mLocation.getLongitude());
             }
         }
     }
