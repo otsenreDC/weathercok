@@ -89,9 +89,6 @@ public class WindActivity extends ActionBarActivity {
 
         private Toolbar mToolbar;
         private TextView speedTextView;
-        private TextView directionTextView;
-        private TextView orientationTextView;
-        private TextView mLocationTextView;
         private Button updateInfoButton;
         private Vane vane;
 
@@ -118,15 +115,13 @@ public class WindActivity extends ActionBarActivity {
 
             this.vane = new Vane(this);
             this.speedTextView = (TextView) rootView.findViewById(R.id.text_view_speed);
-            this.directionTextView = (TextView) rootView.findViewById(R.id.text_view_direction);
-            this.orientationTextView = (TextView) rootView.findViewById(R.id.text_view_orientation);
-            this.mLocationTextView = (TextView) rootView.findViewById(R.id.text_view_location);
             this.updateInfoButton = (Button) rootView.findViewById(R.id.button_update_info);
             this.updateInfoButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (mLocation != null) {
-                        vane.fetchForecast(Double.valueOf(19.0), Double.valueOf(-69));
+                    Location location = getLocation();
+                    if (location != null) {
+                        vane.fetchForecast(location.getLatitude(), location.getLongitude());
                     } else {
                         Toast.makeText(getActivity(), getActivity().getString(R.string.msg_location_not_availble), Toast.LENGTH_SHORT).show();
                     }
@@ -185,14 +180,10 @@ public class WindActivity extends ActionBarActivity {
             if (speedTextView != null) {
                 speedTextView.setText("" + vane.getSpeed());
             }
-            if (directionTextView != null) {
-                directionTextView.setText("" + vane.getDirection());
-            }
         }
 
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
-            this.orientationTextView.setText("" + sensorEvent.values[0]);
             this.mCompassView.setHeading(360 - sensorEvent.values[0]);
             if (this.vane != null) {
                 this.mArrowView.setRotation(-sensorEvent.values[0] + this.vane.getDirection().floatValue());
@@ -207,15 +198,7 @@ public class WindActivity extends ActionBarActivity {
         // ConnectionCallbacks
         @Override
         public void onConnected(Bundle bundle) {
-
             this.setLocation(LocationServices.FusedLocationApi.getLastLocation(this.mGoogleApiClient));
-
-            if (this.mLocation != null) {
-                if (this.mLocationTextView != null) {
-                    this.mLocationTextView.setText("" + this.mLocation.getLatitude() + " - " +
-                            this.mLocation.getLongitude());
-                }
-            }
         }
 
         @Override
@@ -241,11 +224,18 @@ public class WindActivity extends ActionBarActivity {
             }
         }
 
-        public void setLocation(Location mLocation) {
+
+        // Accessors
+        private void setLocation(Location mLocation) {
             this.mLocation = mLocation;
             if (this.vane != null) {
                 this.vane.fetchForecast(this.mLocation.getLatitude(), this.mLocation.getLongitude());
             }
         }
+
+        private Location getLocation() {
+            return this.mLocation;
+        }
+
     }
 }

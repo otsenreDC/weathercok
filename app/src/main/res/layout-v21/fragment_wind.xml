@@ -25,27 +25,7 @@
         <TextView
             android:id="@+id/text_view_speed"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Text" />
-
-        <TextView
-            android:id="@+id/text_view_direction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="subtitle" />
-
-        <TextView
-            android:id="@+id/text_view_orientation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="orientation" />
-
-        <Button
-            android:id="@+id/button_update_info"
-            style="@style/AppTheme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Actualizar direccion" />
+            android:layout_height="wrap_content" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -67,19 +47,16 @@
                 android:padding="2dp" />
 
             <Button
+                android:id="@+id/button_update_info"
                 style="@style/AppTheme"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_margin="1dp"
                 android:layout_gravity="bottom|end"
-                android:elevation="10dp" />
+                android:layout_width="56dp"
+                android:elevation="8dp"
+                android:background="@drawable/fab"
+                android:layout_height="56dp"/>
 
         </FrameLayout>
-
-        <TextView
-            android:id="@+id/text_view_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="location" />
 
     </LinearLayout>
 
