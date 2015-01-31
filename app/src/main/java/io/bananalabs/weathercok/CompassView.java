@@ -73,11 +73,11 @@ public class CompassView extends View {
             canvas.rotate(this.getHeading(), centerx, centery);
 
         // Big circle
-        paint.setColor(0xff80d9ff);
+        paint.setColor(0xff4dc9ff);
         canvas.drawCircle(centerx, centery, radius, paint);
 
         // Inner circle
-        paint.setColor(0xff4dc9ff);
+        paint.setColor(0xff80d9ff);
         canvas.drawCircle(centerx, centery, innerRadius, paint);
 
         paint.setColor(0xffffffff);

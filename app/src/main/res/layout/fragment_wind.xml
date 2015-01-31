@@ -13,44 +13,38 @@
         android:background="?attr/colorPrimary"
         tools:ignore="UnusedAttribute" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
-        android:orientation="vertical"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
+        <io.bananalabs.weathercok.CompassView
+            android:id="@+id/compass_view_heading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:innerRadius="0dp"
+            app:radius="0dp" />
+
+        <io.bananalabs.weathercok.ArrowView
+            android:id="@+id/arrow_view_vane"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:padding="55dp"
+            app:thick="@dimen/arrow_thickness" />
+
         <TextView
             android:id="@+id/text_view_speed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <io.bananalabs.weathercok.CompassView
-                android:id="@+id/compass_view_heading"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                app:innerRadius="0dp"
-                app:radius="0dp" />
-
-            <io.bananalabs.weathercok.ArrowView
-                android:id="@+id/arrow_view_vane"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:padding="55dp"
-                app:thick="1dp" />
-
-        </FrameLayout>
-
-    </LinearLayout>
+    </RelativeLayout>
 
     <ImageButton
         android:id="@+id/button_update_info"
@@ -59,10 +53,10 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:background="@drawable/fab_selector"
         android:layout_marginBottom="@dimen/fab_vertical_margin"
         android:layout_marginEnd="@dimen/fab_horizontal_margin"
         android:layout_marginRight="@dimen/fab_horizontal_margin"
+        android:background="@drawable/fab_selector"
         android:contentDescription="@string/img_cnt_none"
         android:src="@drawable/ic_action_refresh" />
 

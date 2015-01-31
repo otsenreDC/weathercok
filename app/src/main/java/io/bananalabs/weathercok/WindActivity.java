@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -114,6 +115,14 @@ public class WindActivity extends ActionBarActivity {
 
             this.vane = new Vane(this);
             this.speedTextView = (TextView) rootView.findViewById(R.id.text_view_speed);
+            this.speedTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast toast = Toast.makeText(getActivity(), getString(R.string.msg_wind_speed), Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.TOP | Gravity.RIGHT, 0, 0);
+                    toast.show();
+                }
+            });
             this.updateInfoButton = (ImageButton) rootView.findViewById(R.id.button_update_info);
             this.updateInfoButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -177,7 +186,7 @@ public class WindActivity extends ActionBarActivity {
         @Override
         public void onWindFetched(Vane vane) {
             if (speedTextView != null) {
-                speedTextView.setText("" + vane.getSpeed());
+                speedTextView.setText(String.format(getActivity().getString(R.string.wind_speed_label), vane.getSpeed()));
             }
         }
 
@@ -204,6 +213,7 @@ public class WindActivity extends ActionBarActivity {
         public void onConnectionSuspended(int i) {
 
         }
+
 
         // OnConnectionFailedListener
         @Override
