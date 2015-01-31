@@ -19,7 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,11 +85,10 @@ public class WindActivity extends ActionBarActivity {
         private final String LOG_TAG = this.getClass().getSimpleName();
 
         private static final int REQUEST_RESOLVE_ERROR = 1001;
-        private static final String DIALOG_ERROR = "dialog_error";
 
         private Toolbar mToolbar;
         private TextView speedTextView;
-        private Button updateInfoButton;
+        private ImageButton updateInfoButton;
         private Vane vane;
 
         private SensorManager sensorManager;
@@ -115,7 +114,7 @@ public class WindActivity extends ActionBarActivity {
 
             this.vane = new Vane(this);
             this.speedTextView = (TextView) rootView.findViewById(R.id.text_view_speed);
-            this.updateInfoButton = (Button) rootView.findViewById(R.id.button_update_info);
+            this.updateInfoButton = (ImageButton) rootView.findViewById(R.id.button_update_info);
             this.updateInfoButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

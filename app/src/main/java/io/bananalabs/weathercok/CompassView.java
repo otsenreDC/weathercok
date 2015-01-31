@@ -1,6 +1,7 @@
 package io.bananalabs.weathercok;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
@@ -12,6 +13,8 @@ import android.view.View;
 public class CompassView extends View {
 
     private Paint paint = new Paint();
+    public int radius;
+    public int innerRadius;
     private Float mHeading;
 
     public CompassView(Context context) {
@@ -23,13 +26,28 @@ public class CompassView extends View {
     public CompassView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
+        extractCustomAttributes(context, attrs);
         preConfigureBrush();
     }
 
     public CompassView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
+        extractCustomAttributes(context, attrs);
         preConfigureBrush();
+    }
+
+    private void extractCustomAttributes(Context context, AttributeSet attrs) {
+        TypedArray arr = context.obtainStyledAttributes(attrs, R.styleable.CompassView);
+
+        int radius_attr = (int) arr.getDimension(R.styleable.CompassView_radius, 0);
+
+        this.setRadius(radius_attr);
+
+        int inner_radius_attr = (int) arr.getDimension(R.styleable.CompassView_innerRadius, 0);
+        setInnerRadius(inner_radius_attr);
+
+        arr.recycle();  // Do this when done.
     }
 
     private void preConfigureBrush() {
@@ -42,20 +60,14 @@ public class CompassView extends View {
     }
 
     protected void onDraw(Canvas canvas) {
-        int height;
-        int radius;
-        int innerRadius;
         int textPading;
         int centerx = getWidth() / 2;
         int centery = getHeight() / 2;
 
-        if (getWidth() > getHeight())
-            radius = getHeight() / 2 - getPaddingTop();
-        else
-            radius = getWidth() / 2 - getPaddingTop();
+        int radius = getRadius();
+        int innerRadius = getInnerRadius();
 
-        innerRadius = 3 * radius / 4;
-        textPading = radius - innerRadius;
+        textPading = (radius - innerRadius ) / 2;
 
         if (this.getHeading() != null)
             canvas.rotate(this.getHeading(), centerx, centery);
@@ -76,7 +88,7 @@ public class CompassView extends View {
 
         // South
         innercx = centerx - 8;
-        innercy = centery + (radius -  ( textPading - 30) );
+        innercy = centery + (radius - (textPading - 30));
         canvas.drawText("S", innercx - 2, innercy, paint);
 
         // East
@@ -86,8 +98,12 @@ public class CompassView extends View {
 
         // West
         innercy = centery + 12;
-        innercx = centerx - (radius -  ( textPading - 25 ));
+        innercx = centerx - (radius - (textPading - 25));
         canvas.drawText("W", innercx - 2, innercy, paint);
+
+//        Path path = new Path();
+//        path.addCircle(centerx, centery, radius, Path.Direction.CW);
+//        canvas.drawTextOnPath("n\te\ts\tw", path, 0, 20, paint);
 
     }
 
@@ -99,4 +115,43 @@ public class CompassView extends View {
     public Float getHeading() {
         return this.mHeading;
     }
+
+    public int getRadius() {
+        if (this.radius == 0) {
+            if (getHeight() > getWidth()) {
+                this.radius = getWidth() / 2;
+            } else {
+                this.radius = getHeight() / 2;
+            }
+        }
+        return this.radius;
+    }
+
+    public int getInnerRadius() {
+        if (this.innerRadius == 0) {
+            final float scale = getContext().getResources().getDisplayMetrics().density;
+            int pixels =  pixelsFromDB(50);
+            if (getHeight() > getWidth()) {
+                this.innerRadius = getWidth() / 2 - pixels;
+            } else {
+                this.innerRadius = getHeight() / 2 - pixels;
+            }
+        }
+        return this.innerRadius;
+    }
+
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
+
+    public void setInnerRadius(int innerRadius) {
+        this.innerRadius = innerRadius;
+    }
+
+    private int pixelsFromDB(int pixels) {
+        float scale = getContext().getResources().getDisplayMetrics().density;
+
+        return (int)(pixels * scale + 0.5f);
+    }
+
 }

@@ -5,6 +5,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+
+    // Imagess content description
+    <string name="img_cnt_none">none</string>
+
     // Shared Preferences keys
     <string name="pref_latitude_key">latitude_key></string>
     <string name="pref_longitude_key">longitude_key</string>

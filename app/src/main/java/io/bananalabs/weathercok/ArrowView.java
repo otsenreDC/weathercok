@@ -1,6 +1,7 @@
 package io.bananalabs.weathercok;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
@@ -11,7 +12,8 @@ import android.view.View;
  */
 public class ArrowView extends View {
 
-    Paint paint = new Paint();
+    private Paint paint = new Paint();
+    private float mThickness;
 
     public ArrowView(Context context) {
         super(context);
@@ -22,18 +24,28 @@ public class ArrowView extends View {
     public ArrowView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
+        extractCustomAttributes(context, attrs);
         preConfigureBrush();
     }
 
     public ArrowView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
+        extractCustomAttributes(context, attrs);
         preConfigureBrush();
+    }
+
+    private void extractCustomAttributes(Context context, AttributeSet attrs) {
+        TypedArray arr = context.obtainStyledAttributes(attrs, R.styleable.ArrowView);
+
+        this.mThickness = arr.getDimension(R.styleable.ArrowView_thick, 1);
+
+        arr.recycle();  // Do this when done.
     }
 
     private void preConfigureBrush() {
         paint.setColor(0xffffffff);
-        paint.setStrokeWidth(10);
+        paint.setStrokeWidth(pixelsFromDB(100));
         paint.setStyle(Paint.Style.STROKE);
         paint.setAntiAlias(true);
     }
@@ -41,27 +53,79 @@ public class ArrowView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        int length = getHeight();
+
+        this.paint.setStrokeWidth(getThick());
+        int length = getLength();
 
         int centerx = getWidth() / 2;
         int centery = getHeight() / 2;
 
+        int topX = centerx;
+        int topY = centery - length / 2 + getPaddingTop();
+        int bottomX = centerx;
+        int bottomY = centery + length / 2 - getPaddingBottom();
+
         // Body
-        canvas.drawLine(centerx,  1 + getPaddingTop() , centerx, length - 45 - getPaddingBottom(), paint) ;
+        canvas.drawLine(topX, topY, bottomX, bottomY, paint);
 
         // Head
-        canvas.drawLine(centerx - 20, 20  + getPaddingTop(), centerx + 3,  0 + getPaddingTop(), paint);
-        canvas.drawLine(centerx - 3, 0 + getPaddingTop(), centerx + 20,  20 + getPaddingTop(), paint);
+        canvas.drawLine(centerx - pixelsFromDB(5),
+                pixelsFromDB(5) + topY,
+                centerx,
+                topY,
+                paint);
+        canvas.drawLine(centerx,
+                topY,
+                centerx + pixelsFromDB(5),
+                pixelsFromDB(5) + topY,
+                paint);
 
         // Tail bottom
-        canvas.drawLine(centerx - 20, length - getPaddingBottom(), centerx + 3,  length - 20- getPaddingBottom(), paint);
-        canvas.drawLine(centerx - 3, length - 20  - getPaddingBottom(), centerx + 20,  length - getPaddingBottom(), paint);
+        canvas.drawLine(bottomX - pixelsFromDB(5),
+                bottomY,
+                bottomX,
+                bottomY - pixelsFromDB(5),
+                paint);
+        canvas.drawLine(bottomX,
+                bottomY - pixelsFromDB(5),
+                bottomX + pixelsFromDB(5),
+                bottomY,
+                paint);
         // Tail top
-        canvas.drawLine(centerx - 22, length - 25  - getPaddingBottom(), centerx,  length - 45  - getPaddingBottom(), paint);
-        canvas.drawLine(centerx, length - 45  - getPaddingBottom(), centerx + 22,  length - 25  - getPaddingBottom(), paint);
-        // Tail sides
-        canvas.drawLine(centerx - 20, length - 28  - getPaddingBottom(), centerx - 20,  length  - getPaddingBottom() + 4, paint);
-        canvas.drawLine(centerx + 20, length - 28  - getPaddingBottom(), centerx + 20,  length  - getPaddingBottom() + 4, paint);
+        canvas.drawLine(bottomX - pixelsFromDB(5),
+                bottomY,
+                bottomX,
+                bottomY - pixelsFromDB(20),
+                paint);
+        canvas.drawLine(bottomX,
+                bottomY - pixelsFromDB(20),
+                bottomX + pixelsFromDB(5),
+                bottomY,
+                paint);
+
 
     }
+
+    public int getLength() {
+        if (getHeight() > getWidth()) {
+            return getWidth();
+        } else {
+            return getHeight();
+        }
+    }
+
+    public float getThick() {
+        if (this.mThickness <= 0) {
+            return 1;
+        } else {
+            return this.mThickness;
+        }
+    }
+
+    private int pixelsFromDB(int pixels) {
+        float scale = getContext().getResources().getDisplayMetrics().density;
+
+        return (int)(pixels * scale + 0.5f);
+    }
 }
+
