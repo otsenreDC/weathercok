@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CompassView">
+        <attr name="radius" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="innerRadius" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="ArrowView">
+        <attr name="thick" format="dimension"/>
+    </declare-styleable>
+</resources>

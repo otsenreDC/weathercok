@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?><!-- animate the translationZ property of a view when pressed -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="oval">
+            <solid android:color="@color/colorPrimary"/>
+        </shape>
+
+    </item>
+    <item android:state_pressed="false">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="oval">
+            <solid android:color="@color/colorSecondary"/>
+        </shape>
+
+    </item>
+</selector>
