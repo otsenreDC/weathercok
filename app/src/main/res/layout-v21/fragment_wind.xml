@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
+        app:theme="@style/AppTheme.Base.Toolbar"
         tools:ignore="UnusedAttribute" />
 
     <android.support.v7.widget.CardView
