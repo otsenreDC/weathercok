@@ -49,13 +49,26 @@
             app:innerRadius="0dp"
             app:radius="0dp" />
 
-        <io.bananalabs.weathercok.ArrowView
+        <!--<io.bananalabs.weathercok.ArrowView
             android:id="@+id/arrow_view_vane"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:padding="55dp"
-            app:thick="@dimen/arrow_thickness" />
+            app:thick="@dimen/arrow_thickness" /> -->
+
+        <io.bananalabs.weathercok.PointerView
+            android:id="@+id/pointer_view_vane"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:intensity="1"
+            app:lineThick="0dp"
+            android:elevation="8dp"
+            app:aperture="30dp"
+            app:minIntensityColor="#fff"
+            app:maxIntensityColor="#f36"
+            android:padding="150dp"
+            app:length="0dp" />
 
     </RelativeLayout>
 

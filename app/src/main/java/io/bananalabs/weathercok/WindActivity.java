@@ -95,7 +95,8 @@ public class WindActivity extends ActionBarActivity {
         private Sensor mOrientationSensor;
 
         private CompassView mCompassView;
-        private ArrowView mArrowView;
+//        private ArrowView mArrowView;
+        private PointerView mPointerView;
 
         public GoogleApiClient mGoogleApiClient;
         public boolean mResolvingError;
@@ -110,7 +111,7 @@ public class WindActivity extends ActionBarActivity {
             View rootView = inflater.inflate(R.layout.fragment_wind, container, false);
 
             this.mCompassView = (CompassView) rootView.findViewById(R.id.compass_view_heading);
-            this.mArrowView = (ArrowView) rootView.findViewById(R.id.arrow_view_vane);
+            this.mPointerView = (PointerView) rootView.findViewById(R.id.pointer_view_vane);
 
             this.vane = new Vane(this);
             this.speedTextView = (TextView) rootView.findViewById(R.id.text_view_speed);
@@ -185,7 +186,7 @@ public class WindActivity extends ActionBarActivity {
         public void onSensorChanged(SensorEvent sensorEvent) {
             this.mCompassView.setHeading(360 - sensorEvent.values[0]);
             if (this.vane != null) {
-                this.mArrowView.setRotation(-sensorEvent.values[0] + this.vane.getDirection().floatValue());
+                this.mPointerView.setRotation(-sensorEvent.values[0] + this.vane.getDirection().floatValue());
             }
         }
 
