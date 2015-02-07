@@ -27,6 +27,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
+import io.bananalabs.weathercok.service.ForecastService;
+
 
 public class WindActivity extends ActionBarActivity {
 
@@ -121,7 +123,8 @@ public class WindActivity extends ActionBarActivity {
                 public void onClick(View view) {
                     Location location = getLocation();
                     if (location != null) {
-                        vane.fetchForecast(location.getLatitude(), location.getLongitude());
+//                        vane.fetchForecast(location.getLatitude(), location.getLongitude());
+                        ForecastService.startActionFetchForecast(getActivity(), location.getLatitude(), location.getLongitude());
                     } else {
                         Toast.makeText(getActivity(), getActivity().getString(R.string.msg_location_not_availble), Toast.LENGTH_SHORT).show();
                     }
