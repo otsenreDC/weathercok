@@ -10,6 +10,8 @@ public class WindReceiver extends BroadcastReceiver {
 
     private WindReceiverListener listener;
 
+    public WindReceiver() { }
+
     public WindReceiver(WindReceiverListener listener) {
         this.listener = listener;
     }

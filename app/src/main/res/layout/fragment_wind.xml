@@ -16,7 +16,8 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_wind"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
+        android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
         android:layout_margin="6dp">
@@ -27,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="6dp"
-            android:textSize="22sp" />
+            android:textSize="18sp" />
 
     </android.support.v7.widget.CardView>
 
@@ -48,13 +49,6 @@
             app:innerRadius="0dp"
             app:radius="0dp" />
 
-        <!--        <io.bananalabs.weathercok.views.ArrowView
-                    android:id="@+id/arrow_view_vane"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:padding="55dp"
-                    app:thick="@dimen/arrow_thickness" /> -->
         <io.bananalabs.weathercok.views.PointerView
             android:id="@+id/pointer_view_vane"
             android:layout_width="match_parent"
