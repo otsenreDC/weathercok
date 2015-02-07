@@ -1,4 +1,4 @@
-package io.bananalabs.weathercok;
+package io.bananalabs.weathercok.models;
 
 import android.content.Context;
 import android.util.Log;
@@ -19,7 +19,7 @@ public class Vane {
 
     private final String LOG_TAG = this.getClass().getSimpleName();
 
-    interface VaneListener {
+    public interface VaneListener {
         public void onWindFetched(Vane vane);
     }
 

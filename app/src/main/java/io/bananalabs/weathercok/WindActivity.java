@@ -29,7 +29,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
 import io.bananalabs.weathercok.broadcast.WindReceiver;
+import io.bananalabs.weathercok.models.Vane;
 import io.bananalabs.weathercok.service.ForecastService;
+import io.bananalabs.weathercok.views.CompassView;
+import io.bananalabs.weathercok.views.PointerView;
 
 
 public class WindActivity extends ActionBarActivity {
