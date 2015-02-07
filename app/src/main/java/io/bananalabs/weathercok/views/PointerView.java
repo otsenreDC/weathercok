@@ -69,11 +69,18 @@ public class PointerView extends View {
 
         path.moveTo(centerX, centerY - halfLength);
         path.lineTo(centerX - getAperture(), centerY + halfLength);
+        path.lineTo(centerX, centerY + halfLength - getDimension(20));
         path.lineTo(centerX + getAperture(), centerY + halfLength);
         path.lineTo(centerX, centerY - halfLength);
 
         canvas.drawPath(path, getPaint());
 
+    }
+
+    private float getDimension(float d) {
+        float scale = getContext().getResources().getDisplayMetrics().density;
+
+        return (int)(d * scale + 0.5f);
     }
 
     // Accessors
