@@ -129,8 +129,7 @@ public class WindActivity extends ActionBarActivity {
                 public void onClick(View view) {
                     Location location = getLocation();
                     if (location != null) {
-//                        vane.fetchForecast(location.getLatitude(), location.getLongitude());
-                        ForecastService.startActionFetchForecast(getActivity(), location.getLatitude(), location.getLongitude());
+                        vane.fetchForecast(getActivity(), location.getLatitude(), location.getLongitude());
                     } else {
                         Toast.makeText(getActivity(), getActivity().getString(R.string.msg_location_not_availble), Toast.LENGTH_SHORT).show();
                     }
@@ -242,7 +241,13 @@ public class WindActivity extends ActionBarActivity {
 
         @Override
         public void onWindDataReceived(Double speed, Double direction) {
-            Toast.makeText(getActivity(), "speed: " + speed + " direction: " + direction, Toast.LENGTH_SHORT).show();
+
+            if (speedTextView != null) {
+                speedTextView.setText(String.format(getActivity().getString(R.string.wind_speed_label), speed));
+            }
+
+            this.vane.setDirection(direction);
+            this.vane.setSpeed(direction);
         }
 
         // Accessors
@@ -250,7 +255,7 @@ public class WindActivity extends ActionBarActivity {
             this.mLocation = mLocation;
             if (this.mLocation != null)
                 if (this.vane != null) {
-                    this.vane.fetchForecast(this.mLocation.getLatitude(), this.mLocation.getLongitude());
+                    this.vane.fetchForecast(getActivity(), this.mLocation.getLatitude(), this.mLocation.getLongitude());
                 }
         }
 

@@ -1,18 +1,12 @@
 package io.bananalabs.weathercok;
 
-import android.net.Uri;
-import android.os.AsyncTask;
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import io.bananalabs.weathercok.service.ForecastService;
 
 /**
  * Created by EDC on 1/24/15.
@@ -55,76 +49,77 @@ public class Vane {
         this.vaneListener = listener;
     }
 
-    public void fetchForecast(Double latitude, Double longitude) {
+    public void fetchForecast(Context context, Double latitude, Double longitude) {
 
-        new AsyncTask<Double, Void, String>() {
-            @Override
-            protected String doInBackground(Double... locationData) {
-                HttpURLConnection connection = null;
-                BufferedReader reader = null;
-
-                String forecastJsonStr = null;
-
-                String format = "json";
-                String units = "metric";
-                String longitude = locationData[0].toString();
-                String latitude = locationData[1].toString();
-
-                try {
-                    final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/weather?";
-                    final String FORMAT_PARAM = "mode";
-                    final String UNITS_PARAM = "units";
-                    final String LON_PARAM = "lon";
-                    final String LAT_PARAM = "lat";
-
-                    Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
-                            .appendQueryParameter(FORMAT_PARAM, format)
-                            .appendQueryParameter(UNITS_PARAM, units)
-                            .appendQueryParameter(LON_PARAM, longitude)
-                            .appendQueryParameter(LAT_PARAM, latitude)
-                            .build();
-
-                    URL url = new URL(builtUri.toString());
-
-                    connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.connect();
-
-                    InputStream inputStream = connection.getInputStream();
-                    if (inputStream == null) return null;
-
-                    StringBuffer buffer = new StringBuffer();
-                    reader = new BufferedReader(new InputStreamReader(inputStream));
-                    String line = null;
-                    while ((line = reader.readLine()) != null) {
-                        buffer.append(line);
-                        buffer.append("\n");
-                    }
-
-                    if (buffer.length() == 0) return null;
-
-                    forecastJsonStr = buffer.toString();
-
-                } catch (IOException ioe) {
-                    Log.getStackTraceString(ioe);
-                    Log.e(LOG_TAG, ioe.getLocalizedMessage());
-                    return null;
-                }
-
-                Log.d(LOG_TAG, forecastJsonStr);
-
-                extractWindFromForecast(forecastJsonStr);
-
-                return forecastJsonStr;
-            }
-
-            @Override
-            protected void onPostExecute(String forecast) {
-                super.onPostExecute(forecast);
-
-                publishResults();
-            }
-        }.execute(latitude, longitude);
+        ForecastService.startActionFetchForecast(context, latitude, longitude);
+//        new AsyncTask<Double, Void, String>() {
+//            @Override
+//            protected String doInBackground(Double... locationData) {
+//                HttpURLConnection connection = null;
+//                BufferedReader reader = null;
+//
+//                String forecastJsonStr = null;
+//
+//                String format = "json";
+//                String units = "metric";
+//                String longitude = locationData[0].toString();
+//                String latitude = locationData[1].toString();
+//
+//                try {
+//                    final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/weather?";
+//                    final String FORMAT_PARAM = "mode";
+//                    final String UNITS_PARAM = "units";
+//                    final String LON_PARAM = "lon";
+//                    final String LAT_PARAM = "lat";
+//
+//                    Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
+//                            .appendQueryParameter(FORMAT_PARAM, format)
+//                            .appendQueryParameter(UNITS_PARAM, units)
+//                            .appendQueryParameter(LON_PARAM, longitude)
+//                            .appendQueryParameter(LAT_PARAM, latitude)
+//                            .build();
+//
+//                    URL url = new URL(builtUri.toString());
+//
+//                    connection = (HttpURLConnection) url.openConnection();
+//                    connection.setRequestMethod("GET");
+//                    connection.connect();
+//
+//                    InputStream inputStream = connection.getInputStream();
+//                    if (inputStream == null) return null;
+//
+//                    StringBuffer buffer = new StringBuffer();
+//                    reader = new BufferedReader(new InputStreamReader(inputStream));
+//                    String line = null;
+//                    while ((line = reader.readLine()) != null) {
+//                        buffer.append(line);
+//                        buffer.append("\n");
+//                    }
+//
+//                    if (buffer.length() == 0) return null;
+//
+//                    forecastJsonStr = buffer.toString();
+//
+//                } catch (IOException ioe) {
+//                    Log.getStackTraceString(ioe);
+//                    Log.e(LOG_TAG, ioe.getLocalizedMessage());
+//                    return null;
+//                }
+//
+//                Log.d(LOG_TAG, forecastJsonStr);
+//
+//                extractWindFromForecast(forecastJsonStr);
+//
+//                return forecastJsonStr;
+//            }
+//
+//            @Override
+//            protected void onPostExecute(String forecast) {
+//                super.onPostExecute(forecast);
+//
+//                publishResults();
+//            }
+//        }.execute(latitude, longitude);
     }
 
     private void extractWindFromForecast(String json) {
