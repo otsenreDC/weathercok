@@ -52,74 +52,7 @@ public class Vane {
     public void fetchForecast(Context context, Double latitude, Double longitude) {
 
         ForecastService.startActionFetchForecast(context, latitude, longitude);
-//        new AsyncTask<Double, Void, String>() {
-//            @Override
-//            protected String doInBackground(Double... locationData) {
-//                HttpURLConnection connection = null;
-//                BufferedReader reader = null;
-//
-//                String forecastJsonStr = null;
-//
-//                String format = "json";
-//                String units = "metric";
-//                String longitude = locationData[0].toString();
-//                String latitude = locationData[1].toString();
-//
-//                try {
-//                    final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/weather?";
-//                    final String FORMAT_PARAM = "mode";
-//                    final String UNITS_PARAM = "units";
-//                    final String LON_PARAM = "lon";
-//                    final String LAT_PARAM = "lat";
-//
-//                    Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
-//                            .appendQueryParameter(FORMAT_PARAM, format)
-//                            .appendQueryParameter(UNITS_PARAM, units)
-//                            .appendQueryParameter(LON_PARAM, longitude)
-//                            .appendQueryParameter(LAT_PARAM, latitude)
-//                            .build();
-//
-//                    URL url = new URL(builtUri.toString());
-//
-//                    connection = (HttpURLConnection) url.openConnection();
-//                    connection.setRequestMethod("GET");
-//                    connection.connect();
-//
-//                    InputStream inputStream = connection.getInputStream();
-//                    if (inputStream == null) return null;
-//
-//                    StringBuffer buffer = new StringBuffer();
-//                    reader = new BufferedReader(new InputStreamReader(inputStream));
-//                    String line = null;
-//                    while ((line = reader.readLine()) != null) {
-//                        buffer.append(line);
-//                        buffer.append("\n");
-//                    }
-//
-//                    if (buffer.length() == 0) return null;
-//
-//                    forecastJsonStr = buffer.toString();
-//
-//                } catch (IOException ioe) {
-//                    Log.getStackTraceString(ioe);
-//                    Log.e(LOG_TAG, ioe.getLocalizedMessage());
-//                    return null;
-//                }
-//
-//                Log.d(LOG_TAG, forecastJsonStr);
-//
-//                extractWindFromForecast(forecastJsonStr);
-//
-//                return forecastJsonStr;
-//            }
-//
-//            @Override
-//            protected void onPostExecute(String forecast) {
-//                super.onPostExecute(forecast);
-//
-//                publishResults();
-//            }
-//        }.execute(latitude, longitude);
+
     }
 
     private void extractWindFromForecast(String json) {
@@ -167,6 +100,40 @@ public class Vane {
 
     public void setDirection(Double direction) {
         this.direction = direction;
+    }
+
+    public void reset() {
+        this.setSpeed((double)0);
+        this.setDirection((double)0);
+    }
+
+
+    public String getDirectionAsString() {
+
+        Double direction = getDirection();
+        String directionStr = "";
+
+        if (direction != null) {
+            if (direction ==  0 || direction == 360) { // Nortrh
+                directionStr = "N";
+            } else if (direction > 0 && direction < 90) { // North - East
+                directionStr = "NE";
+            } else if (direction == 90) { // East
+                directionStr = "E";
+            } else if (direction > 90 && direction < 180) { // South - East
+                directionStr = "SE";
+            } else if (direction == 180) { // South
+                directionStr = "S";
+            } else if (direction > 180 && direction < 200) { // South - West
+                directionStr = "SW";
+            } else if (direction == 270) { // West
+                directionStr = "W";
+            } else if (direction > 270 && direction < 360) { // North - West
+                directionStr = "NW";
+            }
+        }
+
+        return directionStr;
     }
 
 }

@@ -125,7 +125,6 @@ public class ForecastService extends IntentService {
 
         extractWindFromForecast(forecastJsonStr);
 
-        return;
     }
 
     private void extractWindFromForecast(String json) {
@@ -148,8 +147,6 @@ public class ForecastService extends IntentService {
                 Log.e(LOG_TAG, je.getLocalizedMessage());
             }
         }
-
-        Log.d(LOG_TAG, String.format("<WindForecast>\nLatitude: %f\nLatitude:%f", speed, direction));
 
         broadcastIntent(speed, direction);
     }

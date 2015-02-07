@@ -16,8 +16,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -63,25 +61,6 @@ public class WindActivity extends ActionBarActivity {
                 }
             }
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.wind, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -132,6 +111,9 @@ public class WindActivity extends ActionBarActivity {
                 public void onClick(View view) {
                     Location location = getLocation();
                     if (location != null) {
+                        speedTextView.setText(null);
+                        speedTextView.setHint(getResources().getString(R.string.wind_speed_refreshing));
+                        vane.reset();
                         vane.fetchForecast(getActivity(), location.getLatitude(), location.getLongitude());
                     } else {
                         Toast.makeText(getActivity(), getActivity().getString(R.string.msg_location_not_availble), Toast.LENGTH_SHORT).show();
@@ -195,7 +177,7 @@ public class WindActivity extends ActionBarActivity {
         @Override
         public void onWindFetched(Vane vane) {
             if (speedTextView != null) {
-                speedTextView.setText(String.format(getActivity().getString(R.string.wind_speed_label), vane.getSpeed()));
+                speedTextView.setText(String.format(getActivity().getString(R.string.wind_speed_label), vane.getSpeed(), vane.getDirectionAsString()));
             }
         }
 
@@ -245,12 +227,12 @@ public class WindActivity extends ActionBarActivity {
         @Override
         public void onWindDataReceived(Double speed, Double direction) {
 
-            if (speedTextView != null) {
-                speedTextView.setText(String.format(getActivity().getString(R.string.wind_speed_label), speed));
-            }
-
             this.vane.setDirection(direction);
             this.vane.setSpeed(direction);
+
+            if (speedTextView != null) {
+                speedTextView.setText(String.format(getActivity().getString(R.string.wind_speed_label), speed, this.vane.getDirectionAsString()));
+            }
         }
 
         // Accessors

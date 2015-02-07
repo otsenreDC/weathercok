@@ -18,8 +18,9 @@
     <string name="msg_wind_speed">Wind Speed</string>
 
     // Labes
-    <string name="wind_speed_label">
-        <xliff:g id="speed">Wind speed: %1$s</xliff:g> mps
+    <string name="wind_speed_placeholder">Getting wind speed</string>
+    <string name="wind_speed_label">Wind speed: <xliff:g id="speed">%1.2f</xliff:g> mps <xliff:g id="direction">&#60;%2$s&#62;</xliff:g>
     </string>
+    <string name="wind_speed_refreshing">Refreshing speed</string>
 
 </resources>
