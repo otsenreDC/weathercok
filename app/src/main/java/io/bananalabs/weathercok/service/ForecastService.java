@@ -25,9 +25,11 @@ import java.net.URL;
  */
 public class ForecastService extends IntentService {
 
-    private final String PROPERTY_WIND = "wind";
-    private final String PROPERTY_SPEED = "speed";
-    private final String PROPERTY_DIRECTION = "deg";
+    public static final String BROADCAST_ACTION_FORECAST = "io.bananalabs.weathercok.broadcast.action.FORECAST";
+
+    public static final String PROPERTY_WIND = "wind";
+    public static final String PROPERTY_SPEED = "speed";
+    public static final String PROPERTY_DIRECTION = "deg";
 
     private static final String LOG_TAG = ForecastService.class.getSimpleName();
 
@@ -149,5 +151,17 @@ public class ForecastService extends IntentService {
 
         Log.d(LOG_TAG, String.format("<WindForecast>\nLatitude: %f\nLatitude:%f", speed, direction));
 
+        broadcastIntent(speed, direction);
+    }
+
+    private Intent broadcastIntent(Double speed, Double direction) {
+        Intent intent = new Intent();
+        intent.setAction(BROADCAST_ACTION_FORECAST);
+        intent.putExtra(PROPERTY_SPEED, speed);
+        intent.putExtra(PROPERTY_DIRECTION, direction);
+
+        sendBroadcast(intent);
+
+        return intent;
     }
 }

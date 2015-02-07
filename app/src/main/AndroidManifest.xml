@@ -25,6 +25,12 @@
             android:name=".service.ForecastService"
             android:exported="false" >
         </service>
+
+        <receiver
+            android:name=".broadcast.WindReceiver"
+            android:enabled="true"
+            android:exported="true" >
+        </receiver>
     </application>
 
 </manifest>

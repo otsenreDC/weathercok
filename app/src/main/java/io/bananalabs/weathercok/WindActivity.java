@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -27,6 +28,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
+import io.bananalabs.weathercok.broadcast.WindReceiver;
 import io.bananalabs.weathercok.service.ForecastService;
 
 
@@ -82,7 +84,9 @@ public class WindActivity extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class VaneFragment extends Fragment implements Vane.VaneListener, SensorEventListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    public static class VaneFragment extends Fragment
+            implements Vane.VaneListener, SensorEventListener, WindReceiver.WindReceiverListener,
+            GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
         private final String LOG_TAG = this.getClass().getSimpleName();
 
@@ -97,12 +101,14 @@ public class WindActivity extends ActionBarActivity {
         private Sensor mOrientationSensor;
 
         private CompassView mCompassView;
-//        private ArrowView mArrowView;
+        //        private ArrowView mArrowView;
         private PointerView mPointerView;
 
         public GoogleApiClient mGoogleApiClient;
         public boolean mResolvingError;
         private Location mLocation;
+
+        private WindReceiver windReceiver;
 
         public VaneFragment() {
         }
@@ -148,6 +154,8 @@ public class WindActivity extends ActionBarActivity {
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this).build();
 
+
+            this.windReceiver = new WindReceiver(this);
             return rootView;
         }
 
@@ -158,18 +166,22 @@ public class WindActivity extends ActionBarActivity {
             if (!mResolvingError) {
                 this.mGoogleApiClient.connect();
             }
+
         }
 
         @Override
         public void onResume() {
             super.onResume();
             sensorManager.registerListener(this, mOrientationSensor, SensorManager.SENSOR_DELAY_UI);
+
+            getActivity().registerReceiver(this.windReceiver, new IntentFilter(ForecastService.BROADCAST_ACTION_FORECAST));
         }
 
         @Override
         public void onPause() {
             super.onPause();
             sensorManager.unregisterListener(this);
+            getActivity().unregisterReceiver(this.windReceiver);
         }
 
         @Override
@@ -228,13 +240,18 @@ public class WindActivity extends ActionBarActivity {
             }
         }
 
+        @Override
+        public void onWindDataReceived(Double speed, Double direction) {
+            Toast.makeText(getActivity(), "speed: " + speed + " direction: " + direction, Toast.LENGTH_SHORT).show();
+        }
 
         // Accessors
         private void setLocation(Location mLocation) {
             this.mLocation = mLocation;
-            if (this.vane != null) {
-                this.vane.fetchForecast(this.mLocation.getLatitude(), this.mLocation.getLongitude());
-            }
+            if (this.mLocation != null)
+                if (this.vane != null) {
+                    this.vane.fetchForecast(this.mLocation.getLatitude(), this.mLocation.getLongitude());
+                }
         }
 
         private Location getLocation() {
@@ -242,4 +259,6 @@ public class WindActivity extends ActionBarActivity {
         }
 
     }
+
+
 }
