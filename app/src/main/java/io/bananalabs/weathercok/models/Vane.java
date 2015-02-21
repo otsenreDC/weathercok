@@ -1,7 +1,6 @@
 package io.bananalabs.weathercok.models;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,8 +70,7 @@ public class Vane {
                         direction = windObject.getDouble(PROPERTY_DIRECTION);
                 }
             } catch (JSONException je) {
-                Log.getStackTraceString(je);
-                Log.e(LOG_TAG, je.getLocalizedMessage());
+//                Log.getStackTraceString(je);
             }
         }
 

@@ -1,10 +1,9 @@
 package io.bananalabs.weathercok.service;
 
 import android.app.IntentService;
-import android.content.Intent;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -116,12 +115,9 @@ public class ForecastService extends IntentService {
             forecastJsonStr = buffer.toString();
 
         } catch (IOException ioe) {
-            Log.getStackTraceString(ioe);
-            Log.e(LOG_TAG, ioe.getLocalizedMessage());
+//            Log.getStackTraceString(ioe);
             return;
         }
-
-        Log.d(LOG_TAG, forecastJsonStr);
 
         extractWindFromForecast(forecastJsonStr);
 
@@ -143,8 +139,7 @@ public class ForecastService extends IntentService {
                         direction = windObject.getDouble(PROPERTY_DIRECTION);
                 }
             } catch (JSONException je) {
-                Log.getStackTraceString(je);
-                Log.e(LOG_TAG, je.getLocalizedMessage());
+//                Log.getStackTraceString(je);
             }
         }
 
