@@ -15,6 +15,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import io.bananalabs.weathercok.R;
+
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
  * a service on a separate handler thread.
@@ -85,12 +87,14 @@ public class ForecastService extends IntentService {
             final String UNITS_PARAM = "units";
             final String LON_PARAM = "lon";
             final String LAT_PARAM = "lat";
+            final String APP_ID_PARAM = "appid";
 
             Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                     .appendQueryParameter(FORMAT_PARAM, format)
                     .appendQueryParameter(UNITS_PARAM, units)
                     .appendQueryParameter(LON_PARAM, longitudeStr)
                     .appendQueryParameter(LAT_PARAM, latitudeStr)
+                    .appendQueryParameter(APP_ID_PARAM, this.getString(R.string.app_id))
                     .build();
 
             URL url = new URL(builtUri.toString());
