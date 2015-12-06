@@ -17,10 +17,11 @@
     <style name="Base.ToolBar" parent="Base.Widget.AppCompat.Toolbar">
         <item name="android:popupBackground">#fff</item>
         <item name="android:minHeight">?android:attr/actionBarSize</item>
+        <item name="android:background">@color/colorPrimary</item>
     </style>
 
     <style name="Weathercock.Toolbar" parent="Base.ToolBar">
-        <item name="android:background">@color/colorPrimary</item>
+
     </style>
 
     <style name="Base.Weathercock" parent="AppTheme.Base">

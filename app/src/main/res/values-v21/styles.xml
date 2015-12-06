@@ -11,7 +11,7 @@
         <item name="windowActionBar">false</item>
     </style>
 
-    <style name="Base.Weathercock" parent="AppTheme.Base">
+    <style name="Weathercock.Toolbar" parent="Base.ToolBar">
         <item name="android:elevation">4dp</item>
     </style>
 

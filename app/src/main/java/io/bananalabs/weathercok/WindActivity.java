@@ -19,8 +19,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -150,6 +152,19 @@ public class WindActivity extends AppCompatActivity {
                     }
                 }
             });
+            this.updateInfoButton.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_UP: {
+                            view.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.rotate));
+                            break;
+                        }
+                    }
+                    return false;
+                }
+            });
+
 
             this.sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
             this.mOrientationSensor = this.sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
