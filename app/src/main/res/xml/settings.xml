@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:defaultValue="@string/pref_unit_default"
+        android:dialogTitle="@string/pref_unitType"
+        android:entries="@array/pref_units"
+        android:entryValues="@array/pref_units_values"
+        android:key="@string/pref_unit_key"
+        android:summary="%s"
+        android:title="@string/pref_unitType" />
+
+</PreferenceScreen>

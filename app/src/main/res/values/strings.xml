@@ -12,6 +12,7 @@
     // Shared Preferences keys
     <string name="pref_latitude_key">latitude_key></string>
     <string name="pref_longitude_key">longitude_key</string>
+    <string name="pref_unit_key">unit_key</string>
 
     // Messages
     <string name="msg_location_not_availble">No location available.</string>
@@ -19,9 +20,39 @@
 
     // Labes
     <string name="wind_speed_placeholder">Getting wind speed</string>
-    <string name="wind_speed_label">Wind speed: <xliff:g id="speed">%1.2f</xliff:g> mps <xliff:g id="direction">&#60;%2$s&#62;</xliff:g>
+
+    <string name="wind_speed_label">
+        Wind speed:
+        <xliff:g id="speed">%1.2f</xliff:g>
+        <xliff:g id="unit">%s</xliff:g>
+        <xliff:g id="direction">&#60;%s&#62;</xliff:g>
     </string>
+
     <string name="wind_speed_refreshing">Refreshing speed</string>
 
     <string name="app_id">3483539b204c923c47ba0c29ee4d137a</string>
+
+    <string name="mps">mps</string>
+    <string name="kph">kph</string>
+    <string name="fps">fps</string>
+    <string name="mph">mph</string>
+
+    <string name="pref_unitType">Units</string>
+    <string name="pref_unit_default">@string/mps</string>
+
+    <string-array name="pref_units">
+        <item>@string/mps</item>
+        <item>@string/kph</item>
+        <item>@string/fps</item>
+        <item>@string/mph</item>
+    </string-array>
+
+    <string-array name="pref_units_values">
+        <item>@string/mps</item>
+        <item>@string/kph</item>
+        <item>@string/fps</item>
+        <item>@string/mph</item>
+    </string-array>
+
+
 </resources>

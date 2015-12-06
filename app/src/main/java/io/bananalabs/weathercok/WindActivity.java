@@ -1,20 +1,24 @@
 package io.bananalabs.weathercok;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -32,14 +36,15 @@ import io.bananalabs.weathercok.views.CompassView;
 import io.bananalabs.weathercok.views.PointerView;
 
 
-public class WindActivity extends ActionBarActivity {
+public class WindActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wind);
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
+            getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new VaneFragment())
                     .commit();
         }
@@ -50,7 +55,7 @@ public class WindActivity extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == VaneFragment.REQUEST_RESOLVE_ERROR) {
-            FragmentManager fragmentManager = getFragmentManager();
+            FragmentManager fragmentManager = getSupportFragmentManager();
             VaneFragment placeholderFragment = (VaneFragment) fragmentManager.findFragmentById(R.id.container);
             placeholderFragment.mResolvingError = false;
             if (resultCode == RESULT_OK) {
@@ -62,6 +67,23 @@ public class WindActivity extends ActionBarActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_wind, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -70,6 +92,15 @@ public class WindActivity extends ActionBarActivity {
             GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
         private final String LOG_TAG = this.getClass().getSimpleName();
+
+        private final String MPS = "mps";
+        private final String KPH = "kph";
+        private final String FPS = "fps";
+        private final String MPH = "mph";
+        private final String KNOTS = "kno";
+
+        private String mUnitStr = "";
+        private double mMultiplier = 0;
 
         private static final int REQUEST_RESOLVE_ERROR = 1001;
 
@@ -129,7 +160,7 @@ public class WindActivity extends ActionBarActivity {
 
             this.mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
             if (this.mToolbar != null) {
-                ((ActionBarActivity) getActivity()).setSupportActionBar(this.mToolbar);
+                ((AppCompatActivity) getActivity()).setSupportActionBar(this.mToolbar);
             }
 
             this.mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
@@ -156,8 +187,35 @@ public class WindActivity extends ActionBarActivity {
         public void onResume() {
             super.onResume();
             sensorManager.registerListener(this, mOrientationSensor, SensorManager.SENSOR_DELAY_UI);
-
             getActivity().registerReceiver(this.windReceiver, new IntentFilter(ForecastService.BROADCAST_ACTION_FORECAST));
+
+            SharedPreferences preferenceManager = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+            this.mUnitStr = preferenceManager.getString(getString(R.string.pref_unit_key), getString(R.string.pref_unit_default));
+            setMultiplier(this.mUnitStr);
+
+        }
+
+        private void setMultiplier(String unit) {
+            switch (unit) {
+                case MPS:
+                    this.mMultiplier = 1;
+                    break;
+                case KPH:
+                    this.mMultiplier = 3.6;
+                    break;
+                case FPS:
+                    this.mMultiplier = 3.28084;
+                    break;
+                case MPH:
+                    this.mMultiplier = 2.23694;
+                    break;
+                case KNOTS:
+                    this.mMultiplier = 1.94384;
+                    break;
+                default:
+                    this.mMultiplier = 0;
+                    break;
+            }
         }
 
         @Override
@@ -176,7 +234,7 @@ public class WindActivity extends ActionBarActivity {
         @Override
         public void onWindFetched(Vane vane) {
             if (speedTextView != null) {
-                speedTextView.setText(String.format(getActivity().getString(R.string.wind_speed_label), vane.getSpeed(), vane.getDirectionAsString()));
+                speedTextView.setText(String.format(getActivity().getString(R.string.wind_speed_label), vane.getSpeed() * this.mMultiplier, this.mUnitStr, vane.getDirectionAsString()));
             }
         }
 
@@ -229,7 +287,7 @@ public class WindActivity extends ActionBarActivity {
             this.vane.setSpeed(direction);
 
             if (speedTextView != null) {
-                speedTextView.setText(String.format(getActivity().getString(R.string.wind_speed_label), speed, this.vane.getDirectionAsString()));
+                speedTextView.setText(String.format(getActivity().getString(R.string.wind_speed_label), speed * this.mMultiplier, this.mUnitStr, this.vane.getDirectionAsString()));
             }
         }
 
