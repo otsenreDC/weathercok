@@ -53,6 +53,7 @@
         <item>@string/fps</item>
         <item>@string/mph</item>
     </string-array>
+    <string name="title_activity_map">MapActivity</string>
 
 
 </resources>
