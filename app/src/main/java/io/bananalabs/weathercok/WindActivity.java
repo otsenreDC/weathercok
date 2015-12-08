@@ -21,6 +21,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
 import io.bananalabs.weathercok.broadcast.WindReceiver;
+import io.bananalabs.weathercok.models.Vane;
 import io.bananalabs.weathercok.service.ForecastService;
 
 
@@ -29,6 +30,7 @@ public class WindActivity
         AppCompatActivity
         implements
         SensorEventListener,
+        Vane.VaneListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         WindReceiver.WindReceiverListener {
@@ -41,13 +43,19 @@ public class WindActivity
     public boolean mResolvingError;
     private Location mLocation;
 
+    private Vane vane;
+
     private WindReceiver windReceiver;
+
+    private WindFragment windFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wind);
+
+        this.vane = new Vane(this);
 
         this.sensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
         this.mOrientationSensor = this.sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
@@ -62,6 +70,8 @@ public class WindActivity
                 .addOnConnectionFailedListener(this).build();
 
         this.windReceiver = new WindReceiver(this);
+
+        this.windFragment = (WindFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_wind);
     }
 
     @Override
@@ -133,7 +143,8 @@ public class WindActivity
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-
+        if (windFragment != null)
+            windFragment.updateHeading(- sensorEvent.values[0]);
     }
 
     @Override
@@ -173,6 +184,7 @@ public class WindActivity
     // Accessors
     private void setLocation(Location mLocation) {
         this.mLocation = mLocation;
+        this.vane.fetchForecast(this, mLocation.getLatitude(), mLocation.getLatitude());
     }
 
     private Location getLocation() {
@@ -181,9 +193,13 @@ public class WindActivity
 
     @Override
     public void onWindDataReceived(Double speed, Double direction) {
-        WindFragment windFragment = (WindFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_wind);
         if (windFragment != null) {
             windFragment.updateFragment(speed, direction);
         }
+    }
+
+    @Override
+    public void onWindFetched(Vane vane) {
+
     }
 }
