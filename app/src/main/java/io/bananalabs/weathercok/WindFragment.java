@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import io.bananalabs.weathercok.models.Vane;
@@ -34,10 +33,10 @@ public class WindFragment extends Fragment {
 
     private Toolbar mToolbar;
     private TextView speedTextView;
-    private ImageButton updateInfoButton;
     private CompassView mCompassView;
     private PointerView mPointerView;
 
+    private Float heading = (float)0;
     private Double speed = (double)0;
     private Double direction = (double)0;
 
@@ -53,34 +52,6 @@ public class WindFragment extends Fragment {
         this.mPointerView = (PointerView) rootView.findViewById(R.id.pointer_view_vane);
 
         this.speedTextView = (TextView) rootView.findViewById(R.id.text_view_speed);
-        
-//        this.updateInfoButton = (ImageButton) rootView.findViewById(R.id.button_update_info);
-//        this.updateInfoButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Location location = new Location("");
-//                if (location != null) {
-//                    speedTextView.setText(null);
-//                    speedTextView.setHint(getResources().getString(R.string.wind_speed_refreshing));
-//                    vane.reset();
-//                    vane.fetchForecast(getActivity(), location.getLatitude(), location.getLongitude());
-//                } else {
-//                    Toast.makeText(getActivity(), getActivity().getString(R.string.msg_location_not_availble), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-//        this.updateInfoButton.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                switch (motionEvent.getAction()) {
-//                    case MotionEvent.ACTION_UP: {
-//                        view.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.rotate));
-//                        break;
-//                    }
-//                }
-//                return false;
-//            }
-//        });
 
         this.mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         if (this.mToolbar != null) {
@@ -98,7 +69,7 @@ public class WindFragment extends Fragment {
         this.mUnitStr = preferenceManager.getString(getString(R.string.pref_unit_key), getString(R.string.pref_unit_default));
         setMultiplier(this.mUnitStr);
 
-        updateTextView();
+        updateViews();
 
     }
 
@@ -126,17 +97,19 @@ public class WindFragment extends Fragment {
     }
 
     public void updateHeading(Float heading) {
+        this.heading = heading;
         this.mCompassView.setHeading(heading);
+        this.mPointerView.setRotation(heading + direction.floatValue());
     }
 
     public void updateFragment(Double speed, Double direction) {
         this.speed = speed;
         this.direction = direction;
 
-        updateTextView();
+        updateViews();
     }
 
-    private void updateTextView() {
+    private void updateViews() {
         Vane vane  = new Vane(speed, direction, null);
         this.speedTextView.setText(String.format(getActivity().getString(R.string.wind_speed_label), vane.getSpeed() * this.mMultiplier, this.mUnitStr, vane.getDirectionAsString()));
     }

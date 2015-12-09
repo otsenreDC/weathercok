@@ -14,6 +14,10 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -36,6 +40,9 @@ public class WindActivity
         WindReceiver.WindReceiverListener {
 
     public final int REQUEST_RESOLVE_ERROR = 1001;
+
+
+    private ImageButton updateInfoButton;
 
     private SensorManager sensorManager;
     private Sensor mOrientationSensor;
@@ -72,6 +79,31 @@ public class WindActivity
         this.windReceiver = new WindReceiver(this);
 
         this.windFragment = (WindFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_wind);
+
+        this.updateInfoButton = (ImageButton) findViewById(R.id.button_update_info);
+        this.updateInfoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Location location = mLocation;
+                if (location != null) {
+                    vane.fetchForecast(WindActivity.this, location.getLatitude(), location.getLongitude());
+                } else {
+                    Toast.makeText(WindActivity.this, WindActivity.this.getString(R.string.msg_location_not_availble), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        this.updateInfoButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_UP: {
+                        view.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.rotate));
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -144,7 +176,7 @@ public class WindActivity
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         if (windFragment != null)
-            windFragment.updateHeading(- sensorEvent.values[0]);
+            windFragment.updateHeading(-sensorEvent.values[0]);
     }
 
     @Override
