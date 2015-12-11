@@ -47,7 +47,6 @@ public class WindActivity
 
     public final int REQUEST_RESOLVE_ERROR = 1001;
 
-
     private ImageButton updateInfoButton;
     private Toolbar mToolbar;
 
@@ -92,6 +91,7 @@ public class WindActivity
                 .addOnConnectionFailedListener(this).build();
 
         this.mPager = (ViewPager) findViewById(R.id.pager);
+        this.mPager.setPageTransformer(true, new DepthPageTransformer());
         this.mPagerAdapter = new ScreeSlidePagerAdapter(getSupportFragmentManager());
         this.mPager.setAdapter(this.mPagerAdapter);
         this.updateInfoButton = (ImageButton) findViewById(R.id.button_update_info);
@@ -100,7 +100,7 @@ public class WindActivity
             public void onClick(View view) {
                 Location location = mLocation;
                 if (location != null) {
-                    vane.fetchForecast(WindActivity.this, location.getLatitude(), location.getLongitude());
+                    fetchForecast(location);
                 } else {
                     Toast.makeText(WindActivity.this, WindActivity.this.getString(R.string.msg_location_not_availble), Toast.LENGTH_SHORT).show();
                 }
@@ -127,7 +127,6 @@ public class WindActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (requestCode == REQUEST_RESOLVE_ERROR) {
             this.mResolvingError = false;
             if (resultCode == RESULT_OK) {
@@ -189,6 +188,11 @@ public class WindActivity
         }
     }
 
+    public void fetchForecast(Location location) {
+        this.vane.fetchForecast(this, location.getLatitude(), location.getLatitude());
+    }
+
+
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         if (windFragment != null)
@@ -232,7 +236,9 @@ public class WindActivity
     // Accessors
     private void setLocation(Location mLocation) {
         this.mLocation = mLocation;
-        this.vane.fetchForecast(this, mLocation.getLatitude(), mLocation.getLatitude());
+        fetchForecast(mLocation);
+        if (mapFragment != null)
+            mapFragment.setLatLng(mLocation.getLatitude(), mLocation.getLongitude());
     }
 
     private Location getLocation() {
@@ -244,6 +250,8 @@ public class WindActivity
         if (windFragment != null) {
             windFragment.updateFragment(speed, direction);
         }
+        if (mapFragment != null)
+            mapFragment.setWindSpeedDirection(speed, direction);
     }
 
     @Override
@@ -271,6 +279,43 @@ public class WindActivity
         @Override
         public int getCount() {
             return 2;
+        }
+    }
+
+    public class DepthPageTransformer implements ViewPager.PageTransformer {
+        private static final float MIN_SCALE = 0.75f;
+
+        public void transformPage(View view, float position) {
+            int pageWidth = view.getWidth();
+
+            if (position < -1) { // [-Infinity,-1)
+                // This page is way off-screen to the left.
+                view.setAlpha(0);
+
+            } else if (position <= 0) { // [-1,0]
+                // Use the default slide transition when moving to the left page
+                view.setAlpha(1);
+                view.setTranslationX(0);
+                view.setScaleX(1);
+                view.setScaleY(1);
+
+            } else if (position <= 1) { // (0,1]
+                // Fade the page out.
+                view.setAlpha(1 - position);
+
+                // Counteract the default slide transition
+                view.setTranslationX(pageWidth * -position);
+
+                // Scale the page down (between MIN_SCALE and 1)
+                float scaleFactor = MIN_SCALE
+                        + (1 - MIN_SCALE) * (1 - Math.abs(position));
+                view.setScaleX(scaleFactor);
+                view.setScaleY(scaleFactor);
+
+            } else { // (1,+Infinity]
+                // This page is way off-screen to the right.
+                view.setAlpha(0);
+            }
         }
     }
 }
