@@ -2,13 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
+    <item
+        android:id="@+id/action_settings"
         android:orderInCategory="100"
-        app:showAsAction="ifRoom" />
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
 
-    <item android:id="@+id/action_map"
-        android:title="Map"
-        android:orderInCategory="99"
-        app:showAsAction="ifRoom" />
 </menu>

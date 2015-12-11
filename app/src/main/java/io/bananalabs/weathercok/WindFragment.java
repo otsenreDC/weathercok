@@ -4,8 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +29,6 @@ public class WindFragment extends Fragment {
     private String mUnitStr = "";
     private double mMultiplier = 0;
 
-    private Toolbar mToolbar;
     private TextView speedTextView;
     private CompassView mCompassView;
     private PointerView mPointerView;
@@ -52,11 +49,6 @@ public class WindFragment extends Fragment {
         this.mPointerView = (PointerView) rootView.findViewById(R.id.pointer_view_vane);
 
         this.speedTextView = (TextView) rootView.findViewById(R.id.text_view_speed);
-
-        this.mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        if (this.mToolbar != null) {
-            ((AppCompatActivity) getActivity()).setSupportActionBar(this.mToolbar);
-        }
 
         return rootView;
     }

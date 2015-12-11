@@ -17,8 +17,12 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -45,6 +49,7 @@ public class WindActivity
 
 
     private ImageButton updateInfoButton;
+    private Toolbar mToolbar;
 
     private SensorManager sensorManager;
     private Sensor mOrientationSensor;
@@ -90,29 +95,34 @@ public class WindActivity
         this.mPagerAdapter = new ScreeSlidePagerAdapter(getSupportFragmentManager());
         this.mPager.setAdapter(this.mPagerAdapter);
         this.updateInfoButton = (ImageButton) findViewById(R.id.button_update_info);
-//        this.updateInfoButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Location location = mLocation;
-//                if (location != null) {
-//                    vane.fetchForecast(WindActivity.this, location.getLatitude(), location.getLongitude());
-//                } else {
-//                    Toast.makeText(WindActivity.this, WindActivity.this.getString(R.string.msg_location_not_availble), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-//        this.updateInfoButton.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                switch (motionEvent.getAction()) {
-//                    case MotionEvent.ACTION_UP: {
-//                        view.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.rotate));
-//                        break;
-//                    }
-//                }
-//                return false;
-//            }
-//        });
+        this.updateInfoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Location location = mLocation;
+                if (location != null) {
+                    vane.fetchForecast(WindActivity.this, location.getLatitude(), location.getLongitude());
+                } else {
+                    Toast.makeText(WindActivity.this, WindActivity.this.getString(R.string.msg_location_not_availble), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        this.updateInfoButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_UP: {
+                        view.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.rotate));
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
+
+        this.mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (this.mToolbar != null) {
+            this.setSupportActionBar(this.mToolbar);
+        }
     }
 
     @Override
@@ -173,9 +183,6 @@ public class WindActivity
         switch (item.getItemId()) {
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
-                return true;
-            case R.id.action_map:
-                startActivity(new Intent(this, MapActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
