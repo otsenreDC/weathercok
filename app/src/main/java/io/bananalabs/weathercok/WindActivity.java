@@ -11,12 +11,14 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -50,11 +52,15 @@ public class WindActivity
     public boolean mResolvingError;
     private Location mLocation;
 
+    private ViewPager mPager;
+    private PagerAdapter mPagerAdapter;
+
     private Vane vane;
 
     private WindReceiver windReceiver;
 
     private WindFragment windFragment;
+    private MapActivityFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +69,10 @@ public class WindActivity
         setContentView(R.layout.activity_wind);
 
         this.vane = new Vane(this);
+        this.windReceiver = new WindReceiver(this);
+
+        this.windFragment = new WindFragment();
+        this.mapFragment = new MapActivityFragment();
 
         this.sensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
         this.mOrientationSensor = this.sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
@@ -76,34 +86,33 @@ public class WindActivity
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this).build();
 
-        this.windReceiver = new WindReceiver(this);
-
-        this.windFragment = (WindFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_wind);
-
+        this.mPager = (ViewPager) findViewById(R.id.pager);
+        this.mPagerAdapter = new ScreeSlidePagerAdapter(getSupportFragmentManager());
+        this.mPager.setAdapter(this.mPagerAdapter);
         this.updateInfoButton = (ImageButton) findViewById(R.id.button_update_info);
-        this.updateInfoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Location location = mLocation;
-                if (location != null) {
-                    vane.fetchForecast(WindActivity.this, location.getLatitude(), location.getLongitude());
-                } else {
-                    Toast.makeText(WindActivity.this, WindActivity.this.getString(R.string.msg_location_not_availble), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        this.updateInfoButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_UP: {
-                        view.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.rotate));
-                        break;
-                    }
-                }
-                return false;
-            }
-        });
+//        this.updateInfoButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Location location = mLocation;
+//                if (location != null) {
+//                    vane.fetchForecast(WindActivity.this, location.getLatitude(), location.getLongitude());
+//                } else {
+//                    Toast.makeText(WindActivity.this, WindActivity.this.getString(R.string.msg_location_not_availble), Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+//        this.updateInfoButton.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                switch (motionEvent.getAction()) {
+//                    case MotionEvent.ACTION_UP: {
+//                        view.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.rotate));
+//                        break;
+//                    }
+//                }
+//                return false;
+//            }
+//        });
     }
 
     @Override
@@ -233,5 +242,28 @@ public class WindActivity
     @Override
     public void onWindFetched(Vane vane) {
 
+    }
+
+    private class ScreeSlidePagerAdapter extends FragmentStatePagerAdapter {
+
+        public ScreeSlidePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return windFragment;
+                case 1:
+                    return mapFragment;
+            }
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
     }
 }
