@@ -30,4 +30,40 @@ public class Utils {
         return Utils.getDefaultSharedPreferences(context).edit();
     }
 
+    private static final String MPS = "mps";
+    private static final String KPH = "kph";
+    private static final String FPS = "fps";
+    private static final String MPH = "mph";
+    private static final String KNOTS = "knots";
+
+    public static double speedConversion (String unit, double speed) {
+        double factor;
+        switch (unit) {
+            case MPS:
+                factor = 1;
+                break;
+            case KPH:
+                factor = 3.6;
+                break;
+            case FPS:
+                factor = 3.28084;
+                break;
+            case MPH:
+                factor = 2.23694;
+                break;
+            case KNOTS:
+                factor = 1.94384;
+                break;
+            default:
+                factor = 0;
+                break;
+        }
+        return factor * speed;
+    }
+
+    public static String getUnit(Context context) {
+        SharedPreferences preferenceManager = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        return preferenceManager.getString(context.getString(R.string.pref_unit_key), context.getString(R.string.pref_unit_default));
+    }
+
 }

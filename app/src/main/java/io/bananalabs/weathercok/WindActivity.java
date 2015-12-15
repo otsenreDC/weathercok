@@ -22,7 +22,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -40,7 +42,6 @@ public class WindActivity
         AppCompatActivity
         implements
         SensorEventListener,
-        Vane.VaneListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         WindReceiver.WindReceiverListener {
@@ -72,7 +73,7 @@ public class WindActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wind);
 
-        this.vane = new Vane(this);
+        this.vane = new Vane();
         this.windReceiver = new WindReceiver(this);
 
         this.windFragment = new WindFragment();
@@ -94,6 +95,7 @@ public class WindActivity
         this.mPager.setPageTransformer(true, new DepthPageTransformer());
         this.mPagerAdapter = new ScreeSlidePagerAdapter(getSupportFragmentManager());
         this.mPager.setAdapter(this.mPagerAdapter);
+        this.mPager.addOnPageChangeListener(onPageChangeListener);
         this.updateInfoButton = (ImageButton) findViewById(R.id.button_update_info);
         this.updateInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,7 +194,6 @@ public class WindActivity
         this.vane.fetchForecast(this, location.getLatitude(), location.getLatitude());
     }
 
-
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         if (windFragment != null)
@@ -202,7 +203,6 @@ public class WindActivity
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
     }
-
 
     // ConnectionCallbacks
     @Override
@@ -233,6 +233,25 @@ public class WindActivity
         }
     }
 
+    // On Page Changed Listener
+    private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
+        @Override
+        public void onPageSelected(int position) {
+            switch (position) {
+                case 0:
+                    updateInfoButton.animate().setInterpolator(new DecelerateInterpolator());
+                    updateInfoButton.animate().translationY(0);
+                    updateInfoButton.animate().setDuration(200L);
+                    break;
+                case 1:
+                    updateInfoButton.animate().setInterpolator(new AccelerateDecelerateInterpolator());
+                    updateInfoButton.animate().translationY(180);
+                    updateInfoButton.animate().setDuration(300L);
+                    break;
+            }
+        }
+    };
+
     // Accessors
     private void setLocation(Location mLocation) {
         this.mLocation = mLocation;
@@ -254,10 +273,6 @@ public class WindActivity
             mapFragment.setWindSpeedDirection(speed, direction);
     }
 
-    @Override
-    public void onWindFetched(Vane vane) {
-
-    }
 
     private class ScreeSlidePagerAdapter extends FragmentStatePagerAdapter {
 

@@ -1,8 +1,6 @@
 package io.bananalabs.weathercok;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,9 +23,6 @@ public class WindFragment extends Fragment {
     private final String FPS = "fps";
     private final String MPH = "mph";
     private final String KNOTS = "knots";
-
-    private String mUnitStr = "";
-    private double mMultiplier = 0;
 
     private TextView speedTextView;
     private CompassView mCompassView;
@@ -57,35 +52,8 @@ public class WindFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        SharedPreferences preferenceManager = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-        this.mUnitStr = preferenceManager.getString(getString(R.string.pref_unit_key), getString(R.string.pref_unit_default));
-        setMultiplier(this.mUnitStr);
-
         updateViews();
 
-    }
-
-    private void setMultiplier(String unit) {
-        switch (unit) {
-            case MPS:
-                this.mMultiplier = 1;
-                break;
-            case KPH:
-                this.mMultiplier = 3.6;
-                break;
-            case FPS:
-                this.mMultiplier = 3.28084;
-                break;
-            case MPH:
-                this.mMultiplier = 2.23694;
-                break;
-            case KNOTS:
-                this.mMultiplier = 1.94384;
-                break;
-            default:
-                this.mMultiplier = 0;
-                break;
-        }
     }
 
     public void updateHeading(Float heading) {
@@ -102,7 +70,8 @@ public class WindFragment extends Fragment {
     }
 
     private void updateViews() {
-        Vane vane  = new Vane(speed, direction, null);
-        this.speedTextView.setText(String.format(getActivity().getString(R.string.wind_speed_label), vane.getSpeed() * this.mMultiplier, this.mUnitStr, vane.getDirectionAsString()));
+        Vane vane  = new Vane(speed, direction);
+        String unit = Utils.getUnit(getActivity());
+        this.speedTextView.setText(String.format(getActivity().getString(R.string.wind_speed_label), Utils.speedConversion(unit, vane.getSpeed()), unit, vane.getDirectionAsString()));
     }
 }

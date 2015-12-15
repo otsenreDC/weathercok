@@ -18,15 +18,6 @@ public class Vane {
 
     private final String LOG_TAG = this.getClass().getSimpleName();
 
-    public interface VaneListener {
-        public void onWindFetched(Vane vane);
-    }
-
-    /**
-     * Vane's changes listener
-     */
-    private VaneListener vaneListener;
-
     /**
      * Speed in knots
      */
@@ -36,16 +27,14 @@ public class Vane {
      */
     private Double direction;
 
-    public Vane(VaneListener listener) {
-        this.speed = Double.valueOf(0);
-        this.direction = Double.valueOf(0);
-        this.vaneListener = listener;
+    public Vane() {
+        this.speed = (double)0;
+        this.direction = (double)0;
     }
 
-    public Vane(Double speed, Double direction, VaneListener listener) {
+    public Vane(Double speed, Double direction) {
         this.speed = speed;
         this.direction = direction;
-        this.vaneListener = listener;
     }
 
     public void fetchForecast(Context context, Double latitude, Double longitude) {
@@ -79,10 +68,6 @@ public class Vane {
 
     }
 
-    private void publishResults() {
-        vaneListener.onWindFetched(this);
-    }
-
 
     public Double getSpeed() {
         return this.speed;
@@ -100,9 +85,14 @@ public class Vane {
         this.direction = direction;
     }
 
+    public void setSpeedDirection(Double speed, Double direction) {
+        setSpeed(speed);
+        setDirection(direction);
+    }
+
     public void reset() {
-        this.setSpeed((double)0);
-        this.setDirection((double)0);
+        this.setSpeed((double) 0);
+        this.setDirection((double) 0);
     }
 
 
@@ -122,7 +112,7 @@ public class Vane {
                 directionStr = "SE";
             } else if (direction == 180) { // South
                 directionStr = "S";
-            } else if (direction > 180 && direction < 200) { // South - West
+            } else if (direction > 180 && direction < 270) { // South - West
                 directionStr = "SW";
             } else if (direction == 270) { // West
                 directionStr = "W";
@@ -134,4 +124,31 @@ public class Vane {
         return directionStr;
     }
 
+    public String getDirectionAsFullString() {
+
+        Double direction = getDirection();
+        String directionStr = "";
+
+        if (direction != null) {
+            if (direction ==  0 || direction == 360) { // Nortrh
+                directionStr = "North";
+            } else if (direction > 0 && direction < 90) { // North - East
+                directionStr = "North-East";
+            } else if (direction == 90) { // East
+                directionStr = "East";
+            } else if (direction > 90 && direction < 180) { // South - East
+                directionStr = "South-East";
+            } else if (direction == 180) { // South
+                directionStr = "South";
+            } else if (direction > 180 && direction < 270) { // South - West
+                directionStr = "South-West";
+            } else if (direction == 270) { // West
+                directionStr = "West";
+            } else if (direction > 270 && direction < 360) { // North - West
+                directionStr = "North-West";
+            }
+        }
+
+        return directionStr;
+    }
 }
