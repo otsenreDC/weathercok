@@ -46,6 +46,7 @@
         <item>@string/kph</item>
         <item>@string/fps</item>
         <item>@string/mph</item>
+        <item>@string/knots</item>
     </string-array>
 
     <string-array name="pref_units_values">
@@ -53,6 +54,7 @@
         <item>@string/kph</item>
         <item>@string/fps</item>
         <item>@string/mph</item>
+        <item>@string/knots</item>
     </string-array>
     <string name="title_activity_map">MapActivity</string>
 

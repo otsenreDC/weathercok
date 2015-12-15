@@ -92,7 +92,7 @@ public class MapActivityFragment extends Fragment {
             mArrow.setRotation(-mMap.getCameraPosition().bearing + direction.floatValue());
 
         String unit = Utils.getUnit(getActivity());
-        mSpeedTextView.setText("" + Utils.speedConversion(unit, mVane.getSpeed()) + " " + unit);
+        mSpeedTextView.setText(String.format("%.2f %s", Utils.speedConversion(unit, mVane.getSpeed()), unit));
 
         mDirectionTextView.setText(String.format("%.2fº <%s>", mVane.getDirection(), mVane.getDirectionAsFullString()));
     }
