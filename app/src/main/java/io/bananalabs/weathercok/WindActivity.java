@@ -245,7 +245,7 @@ public class WindActivity
                     break;
                 case 1:
                     updateInfoButton.animate().setInterpolator(new AccelerateDecelerateInterpolator());
-                    updateInfoButton.animate().translationY(180);
+                    updateInfoButton.animate().translationY(250);
                     updateInfoButton.animate().setDuration(300L);
                     break;
             }

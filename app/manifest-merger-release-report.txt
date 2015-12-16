@@ -216,59 +216,53 @@ ADDED from AndroidManifest.xml:40:9
 		ADDED from AndroidManifest.xml:42:13
 	android:name
 		ADDED from AndroidManifest.xml:41:13
-activity#io.bananalabs.weathercok.MapActivity
+meta-data#com.google.android.gms.version
 ADDED from AndroidManifest.xml:45:9
-	android:label
-		ADDED from AndroidManifest.xml:47:13
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
+MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
 	android:name
 		ADDED from AndroidManifest.xml:46:13
-meta-data#com.google.android.gms.version
-ADDED from AndroidManifest.xml:50:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-MERGED from com.google.android.gms:play-services-basement:8.1.0:21:9
-	android:name
-		ADDED from AndroidManifest.xml:51:13
 	android:value
-		ADDED from AndroidManifest.xml:52:13
+		ADDED from AndroidManifest.xml:47:13
 meta-data#com.google.android.geo.API_KEY
-ADDED from AndroidManifest.xml:54:9
+ADDED from AndroidManifest.xml:49:9
 	android:name
-		ADDED from AndroidManifest.xml:55:13
+		ADDED from AndroidManifest.xml:50:13
 	android:value
-		ADDED from AndroidManifest.xml:56:13
+		ADDED from AndroidManifest.xml:51:13
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from com.android.support:appcompat-v7:23.1.1:20:5
