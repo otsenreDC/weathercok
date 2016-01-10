@@ -91,20 +91,7 @@ public class WindActivity
         }
 
         this.locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        if (!locationManager.isProviderEnabled( LocationManager.GPS_PROVIDER ))
-        {
-            new AlertDialog.Builder(this)
-                    .setMessage(getString(R.string.msg_gps_off))
-                    .setPositiveButton(getString(R.string.btn_yes),
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                                }
-                            })
-                    .setNegativeButton(getString(R.string.btn_no), null)
-                    .show();
-        }
+
         this.mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
@@ -172,6 +159,21 @@ public class WindActivity
     public void onResume() {
         super.onResume();
 
+        if (!locationManager.isProviderEnabled( LocationManager.GPS_PROVIDER ))
+        {
+            new AlertDialog.Builder(this)
+                    .setMessage(getString(R.string.msg_gps_off))
+                    .setPositiveButton(getString(R.string.btn_yes),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                                }
+                            })
+                    .setNegativeButton(getString(R.string.btn_no), null)
+                    .show();
+        }
+        
         this.sensorManager.registerListener(this, mOrientationSensor, SensorManager.SENSOR_DELAY_UI);
         this.registerReceiver(this.windReceiver, new IntentFilter(ForecastService.BROADCAST_ACTION_FORECAST));
     }
