@@ -11,7 +11,7 @@
     <declare-styleable name="ArrowView">
         <attr name="thick" format="dimension"/>
     </declare-styleable>
-    
+
     <declare-styleable name="PointerView">
         <attr name="maxIntensityColor" format="color"/>
         <attr name="minIntensityColor" format="color"/>

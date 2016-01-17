@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import io.bananalabs.weathercok.models.Vane;
-import io.bananalabs.weathercok.views.CompassView;
-import io.bananalabs.weathercok.views.PointerView;
+import io.bananalabs.common.views.CompassView;
+import io.bananalabs.common.views.PointerView;
 
 /**
  * Created by EDC on 12/8/15.
