@@ -89,8 +89,8 @@ public class CompassView extends View {
         canvas.drawText("N", innercx - 2, innercy, paint);
 
         // South
-        innercx = centerx - 8;
-        innercy = centery + (radius - (textPading - 30));
+        innercx = centerx - 6;
+        innercy = centery + (radius - (textPading - 20));
         canvas.drawText("S", innercx - 2, innercy, paint);
 
         // East
@@ -99,8 +99,8 @@ public class CompassView extends View {
         canvas.drawText("E", innercx - 2, innercy, paint);
 
         // West
-        innercy = centery + 12;
-        innercx = centerx - (radius - (textPading - 25));
+        innercy = centery + 10;
+        innercx = centerx - (radius - (textPading - 15));
         canvas.drawText("W", innercx - 2, innercy, paint);
 
 //        Path path = new Path();

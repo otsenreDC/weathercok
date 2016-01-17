@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <io.bananalabs.common.views.CompassView
+        android:id="@+id/compass_view_heading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        app:innerRadius="70dp"
+        app:radius="0dp" />
+
+    <io.bananalabs.common.views.PointerView
+        android:id="@+id/pointer_view_vane"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:aperture="15dp"
+        app:intensity="1"
+        app:length="100dp"
+        app:lineThick="0dp"
+        app:maxIntensityColor="#f36"
+        app:minIntensityColor="#fff" />
+
+</RelativeLayout>
