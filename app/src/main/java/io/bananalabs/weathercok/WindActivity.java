@@ -84,7 +84,7 @@ public class WindActivity
         this.mapFragment = new MapActivityFragment();
 
         this.sensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
-        this.mOrientationSensor = this.sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+        this.mOrientationSensor = this.sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
         if (mOrientationSensor == null) {
             Toast.makeText(this, "This app cannot run on this device.", Toast.LENGTH_LONG).show();
             this.finish();
@@ -218,7 +218,7 @@ public class WindActivity
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         if (windFragment != null)
-            windFragment.updateHeading(-sensorEvent.values[0]);
+            windFragment.updateHeading((float)(Math.asin(sensorEvent.values[2])*2.0 * 180 / Math.PI));
     }
 
     @Override
