@@ -37,6 +37,14 @@
             android:name=".service.ForecastService"
             android:exported="false" />
 
+        <service android:name=".service.ForecastWearService"
+            android:exported="false" >
+            <intent-filter >
+                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
+                <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
+            </intent-filter>
+            </service>
+
         <receiver
             android:name=".broadcast.WindReceiver"
             android:enabled="true"

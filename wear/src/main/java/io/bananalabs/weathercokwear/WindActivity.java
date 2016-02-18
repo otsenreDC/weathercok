@@ -11,14 +11,29 @@ import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.wearable.MessageApi;
+import com.google.android.gms.wearable.PutDataMapRequest;
+import com.google.android.gms.wearable.PutDataRequest;
+import com.google.android.gms.wearable.Wearable;
+
 import io.bananalabs.common.views.CompassView;
 
 public class WindActivity extends Activity implements
-        SensorEventListener {
+        SensorEventListener,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
+
+    private final String DATA_PATH = "/location";
 
     private CompassView mCompassView;
     private SensorManager mSensorManager;
     private Sensor mRotationVector;
+
+    private GoogleApiClient mGoogleApiClient;
+    private boolean mResolvingError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +55,13 @@ public class WindActivity extends Activity implements
                 mCompassView = (CompassView) stub.findViewById(R.id.compass_view_heading);
             }
         });
+
+        this.mGoogleApiClient = new GoogleApiClient
+                .Builder(this)
+                .addApi(Wearable.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
     }
 
     @Override
@@ -48,6 +70,9 @@ public class WindActivity extends Activity implements
         if (mSensorManager != null) {
             mSensorManager.registerListener(this, mRotationVector, SensorManager.SENSOR_DELAY_NORMAL);
         }
+
+        if (!mResolvingError)
+            mGoogleApiClient.connect();
     }
 
     @Override
@@ -55,6 +80,9 @@ public class WindActivity extends Activity implements
         super.onPause();
         if (mSensorManager != null)
             mSensorManager.unregisterListener(this);
+
+        if (mGoogleApiClient != null && (mGoogleApiClient.isConnecting() || mGoogleApiClient.isConnected()))
+            mGoogleApiClient.disconnect();
     }
 
 
@@ -70,6 +98,14 @@ public class WindActivity extends Activity implements
         }
     }
 
+    private void requestData() {
+        PutDataMapRequest putDataMapReq = PutDataMapRequest.create(DATA_PATH);
+        PutDataRequest putDataReq = putDataMapReq.asPutDataRequest();
+        PendingResult<MessageApi.SendMessageResult> pendingResult =
+        Wearable.MessageApi.sendMessage(mGoogleApiClient, "", "", "".getBytes());
+
+    }
+
     /**
      * Sensor Event Listener
      */
@@ -77,7 +113,7 @@ public class WindActivity extends Activity implements
     public void onSensorChanged(SensorEvent sensorEvent) {
         if (sensorEvent.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
             if (mCompassView != null) {
-                mCompassView.setRotation((float)(Math.asin(sensorEvent.values[2])*2.0 * 180 / Math.PI));
+                mCompassView.setRotation((float) (Math.asin(sensorEvent.values[2]) * 2.0 * 180 / Math.PI));
             }
         }
     }
@@ -87,4 +123,22 @@ public class WindActivity extends Activity implements
 
     }
 
+    /*
+    Google Api Client
+     */
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        requestData();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        this.mResolvingError = true;
+    }
 }

@@ -38,6 +38,7 @@ import com.google.android.gms.location.LocationServices;
 import io.bananalabs.weathercok.broadcast.WindReceiver;
 import io.bananalabs.weathercok.models.Vane;
 import io.bananalabs.weathercok.service.ForecastService;
+import io.bananalabs.weathercok.service.ForecastWearService;
 
 
 public class WindActivity
@@ -109,6 +110,7 @@ public class WindActivity
                 Location location = mLocation;
                 if (location != null) {
                     fetchForecast(location);
+                    ForecastWearService.startActionFetchForecast(getApplicationContext());
                 } else {
                     Toast.makeText(WindActivity.this, WindActivity.this.getString(R.string.msg_location_not_availble), Toast.LENGTH_SHORT).show();
                 }
@@ -159,8 +161,7 @@ public class WindActivity
     public void onResume() {
         super.onResume();
 
-        if (!locationManager.isProviderEnabled( LocationManager.GPS_PROVIDER ))
-        {
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             new AlertDialog.Builder(this)
                     .setMessage(getString(R.string.msg_gps_off))
                     .setPositiveButton(getString(R.string.btn_yes),
@@ -173,7 +174,7 @@ public class WindActivity
                     .setNegativeButton(getString(R.string.btn_no), null)
                     .show();
         }
-        
+
         this.sensorManager.registerListener(this, mOrientationSensor, SensorManager.SENSOR_DELAY_UI);
         this.registerReceiver(this.windReceiver, new IntentFilter(ForecastService.BROADCAST_ACTION_FORECAST));
     }
@@ -218,7 +219,7 @@ public class WindActivity
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         if (windFragment != null)
-            windFragment.updateHeading((float)(Math.asin(sensorEvent.values[2])*2.0 * 180 / Math.PI));
+            windFragment.updateHeading((float) (Math.asin(sensorEvent.values[2]) * 2.0 * 180 / Math.PI));
     }
 
     @Override

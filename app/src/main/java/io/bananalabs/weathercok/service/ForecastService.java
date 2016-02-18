@@ -32,8 +32,6 @@ public class ForecastService extends IntentService {
     public static final String PROPERTY_SPEED = "speed";
     public static final String PROPERTY_DIRECTION = "deg";
 
-    private static final String LOG_TAG = ForecastService.class.getSimpleName();
-
     private static final String ACTION_FETCH_FORECAST = "io.bananalabs.weathercok.service.action.FETCH_FORECAST";
 
     // TODO: Rename parameters

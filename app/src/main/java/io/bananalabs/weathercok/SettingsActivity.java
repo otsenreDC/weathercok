@@ -20,7 +20,6 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
     }
 }
