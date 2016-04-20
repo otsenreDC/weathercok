@@ -1,6 +1,8 @@
 package io.bananalabs.weathervane;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentSender;
@@ -9,6 +11,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -55,6 +58,7 @@ public class WindActivity
     private Sensor mOrientationSensor;
     public GoogleApiClient mGoogleApiClient;
     public boolean mResolvingError;
+    private LocationManager locationManager;
     private Location mLocation;
 
     private ViewPager mPager;
@@ -85,6 +89,8 @@ public class WindActivity
             Toast.makeText(this, "This app cannot run on this device.", Toast.LENGTH_LONG).show();
             this.finish();
         }
+
+        this.locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
         this.mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
@@ -153,6 +159,21 @@ public class WindActivity
     public void onResume() {
         super.onResume();
 
+        if (!locationManager.isProviderEnabled( LocationManager.GPS_PROVIDER ))
+        {
+            new AlertDialog.Builder(this)
+                    .setMessage(getString(R.string.msg_gps_off))
+                    .setPositiveButton(getString(R.string.btn_yes),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                                }
+                            })
+                    .setNegativeButton(getString(R.string.btn_no), null)
+                    .show();
+        }
+        
         this.sensorManager.registerListener(this, mOrientationSensor, SensorManager.SENSOR_DELAY_UI);
         this.registerReceiver(this.windReceiver, new IntentFilter(ForecastService.BROADCAST_ACTION_FORECAST));
     }
@@ -245,7 +266,7 @@ public class WindActivity
                     break;
                 case 1:
                     updateInfoButton.animate().setInterpolator(new AccelerateDecelerateInterpolator());
-                    updateInfoButton.animate().translationY(180);
+                    updateInfoButton.animate().translationY(2510);
                     updateInfoButton.animate().setDuration(300L);
                     break;
             }
@@ -255,9 +276,11 @@ public class WindActivity
     // Accessors
     private void setLocation(Location mLocation) {
         this.mLocation = mLocation;
-        fetchForecast(mLocation);
-        if (mapFragment != null)
-            mapFragment.setLatLng(mLocation.getLatitude(), mLocation.getLongitude());
+        if (mLocation != null) {
+            fetchForecast(mLocation);
+            if (mapFragment != null)
+                mapFragment.setLatLng(mLocation.getLatitude(), mLocation.getLongitude());
+        }
     }
 
     private Location getLocation() {

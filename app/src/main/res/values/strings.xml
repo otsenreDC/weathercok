@@ -17,6 +17,11 @@
     // Messages
     <string name="msg_location_not_availble">No location available.</string>
     <string name="msg_wind_speed">Wind Speed</string>
+    <string name="msg_gps_off">Your GPS seems to be disabled, do you want to enable it?</string>
+
+    // Buttons
+    <string name="btn_yes">Yes</string>
+    <string name="btn_no">No</string>
 
     // Labes
     <string name="wind_speed_placeholder">Getting wind speed</string>
