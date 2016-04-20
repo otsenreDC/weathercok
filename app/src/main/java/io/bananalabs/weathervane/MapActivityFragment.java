@@ -1,4 +1,4 @@
-package io.bananalabs.weathercok;
+package io.bananalabs.weathervane;
 
 import android.location.Location;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
-import io.bananalabs.weathercok.models.Vane;
+import io.bananalabs.weathervane.models.Vane;
 
 /**
  * A placeholder fragment containing a simple view.

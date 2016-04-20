@@ -1,4 +1,4 @@
-package io.bananalabs.weathercok.views;
+package io.bananalabs.weathervane.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,7 +8,7 @@ import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.View;
 
-import io.bananalabs.weathercok.R;
+import io.bananalabs.weathervane.R;
 
 /**
  * Created by EDC on 1/31/15.

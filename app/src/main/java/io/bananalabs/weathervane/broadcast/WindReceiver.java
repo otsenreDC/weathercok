@@ -1,10 +1,10 @@
-package io.bananalabs.weathercok.broadcast;
+package io.bananalabs.weathervane.broadcast;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import io.bananalabs.weathercok.service.ForecastService;
+import io.bananalabs.weathervane.service.ForecastService;
 
 public class WindReceiver extends BroadcastReceiver {
 

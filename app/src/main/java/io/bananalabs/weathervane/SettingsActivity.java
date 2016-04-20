@@ -1,4 +1,4 @@
-package io.bananalabs.weathercok;
+package io.bananalabs.weathervane;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

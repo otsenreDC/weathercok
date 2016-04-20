@@ -1,4 +1,4 @@
-package io.bananalabs.weathercok.service;
+package io.bananalabs.weathervane.service;
 
 import android.app.IntentService;
 import android.content.Context;
@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import io.bananalabs.weathercok.R;
+import io.bananalabs.weathervane.R;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in

@@ -1,4 +1,4 @@
-package io.bananalabs.weathercok;
+package io.bananalabs.weathervane;
 
 import android.content.Context;
 import android.content.Intent;
@@ -32,9 +32,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
-import io.bananalabs.weathercok.broadcast.WindReceiver;
-import io.bananalabs.weathercok.models.Vane;
-import io.bananalabs.weathercok.service.ForecastService;
+import io.bananalabs.weathervane.broadcast.WindReceiver;
+import io.bananalabs.weathervane.models.Vane;
+import io.bananalabs.weathervane.service.ForecastService;
 
 
 public class WindActivity

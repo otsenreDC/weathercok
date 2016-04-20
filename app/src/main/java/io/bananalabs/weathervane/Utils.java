@@ -1,4 +1,4 @@
-package io.bananalabs.weathercok;
+package io.bananalabs.weathervane;
 
 import android.content.Context;
 import android.content.SharedPreferences;

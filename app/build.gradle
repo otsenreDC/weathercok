@@ -5,11 +5,11 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "io.bananalabs.weathercok"
+        applicationId "io.bananalabs.weathervane"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 4
-        versionName "1.2.0"
+        versionCode 2001
+        versionName "2.0.1"
     }
 
     signingConfigs {

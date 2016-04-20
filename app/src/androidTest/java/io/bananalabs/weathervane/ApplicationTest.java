@@ -1,4 +1,4 @@
-package io.bananalabs.weathercok;
+package io.bananalabs.weathervane;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

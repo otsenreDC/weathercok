@@ -1,4 +1,4 @@
-package io.bananalabs.weathercok;
+package io.bananalabs.weathervane;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import io.bananalabs.weathercok.models.Vane;
-import io.bananalabs.weathercok.views.CompassView;
-import io.bananalabs.weathercok.views.PointerView;
+import io.bananalabs.weathervane.models.Vane;
+import io.bananalabs.weathervane.views.CompassView;
+import io.bananalabs.weathervane.views.PointerView;
 
 /**
  * Created by EDC on 12/8/15.

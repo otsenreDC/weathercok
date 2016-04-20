@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="io.bananalabs.weathercok" >
+    package="io.bananalabs.weathervane" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -15,7 +15,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".WindActivity"
+            android:name="io.bananalabs.weathervane.WindActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -25,27 +25,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
-            android:parentActivityName=".WindActivity"
+            android:name="io.bananalabs.weathervane.SettingsActivity"
+            android:parentActivityName="io.bananalabs.weathervane.WindActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".WindActivity" />
+                android:value="io.bananalabs.weathervane.WindActivity" />
         </activity>
 
         <service
-            android:name=".service.ForecastService"
+            android:name="io.bananalabs.weathervane.service.ForecastService"
             android:exported="false" />
 
         <receiver
-            android:name=".broadcast.WindReceiver"
+            android:name="io.bananalabs.weathervane.broadcast.WindReceiver"
             android:enabled="true"
             android:exported="false" />
-
-        <activity
-            android:name=".MapActivity"
-            android:label="@string/title_activity_map" >
-        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -53,7 +48,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAVgddmu8bEDYRfaWP63_dJroXSSuEKdTE"/>
+            android:value="AIzaSyD0rrR6qbvXEesRd4VbGuVK8a9LtH3cs1Y"/>
     </application>
 
 </manifest>

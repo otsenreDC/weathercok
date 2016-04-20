@@ -35,7 +35,7 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
-        <io.bananalabs.weathercok.views.CompassView
+        <io.bananalabs.weathervane.views.CompassView
             android:id="@+id/compass_view_heading"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -43,7 +43,7 @@
             app:innerRadius="0dp"
             app:radius="0dp" />
 
-        <io.bananalabs.weathercok.views.PointerView
+        <io.bananalabs.weathervane.views.PointerView
             android:id="@+id/pointer_view_vane"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

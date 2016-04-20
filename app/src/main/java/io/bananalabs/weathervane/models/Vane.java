@@ -1,11 +1,11 @@
-package io.bananalabs.weathercok.models;
+package io.bananalabs.weathervane.models;
 
 import android.content.Context;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import io.bananalabs.weathercok.service.ForecastService;
+import io.bananalabs.weathervane.service.ForecastService;
 
 /**
  * Created by EDC on 1/24/15.
