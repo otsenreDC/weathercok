@@ -28,9 +28,9 @@ public class WindFragment extends Fragment {
     private CompassView mCompassView;
     private PointerView mPointerView;
 
-    private Float heading = (float)0;
-    private Double speed = (double)0;
-    private Double direction = (double)0;
+    private Float heading = (float) 0;
+    private Double speed = (double) 0;
+    private Double direction = (double) 0;
 
     public WindFragment() {
     }
@@ -58,7 +58,9 @@ public class WindFragment extends Fragment {
 
     public void updateHeading(Float heading) {
         this.heading = heading;
-        this.mCompassView.setHeading(heading);
+        if (this.mCompassView != null)
+            this.mCompassView.setHeading(heading);
+        if (this.mPointerView != null)
         this.mPointerView.setRotation(heading + direction.floatValue());
     }
 
@@ -70,7 +72,7 @@ public class WindFragment extends Fragment {
     }
 
     private void updateViews() {
-        Vane vane  = new Vane(speed, direction);
+        Vane vane = new Vane(speed, direction);
         String unit = Utils.getUnit(getActivity());
         this.speedTextView.setText(String.format(getActivity().getString(R.string.wind_speed_label), Utils.speedConversion(unit, vane.getSpeed()), unit, vane.getDirectionAsString()));
     }
