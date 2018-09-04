@@ -42,18 +42,13 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity
-            android:name=".MapActivity"
-            android:label="@string/title_activity_map" >
-        </activity>
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAVgddmu8bEDYRfaWP63_dJroXSSuEKdTE"/>
+            android:value="AIzaSyD0rrR6qbvXEesRd4VbGuVK8a9LtH3cs1Y"/>
     </application>
 
 </manifest>

@@ -191,13 +191,15 @@ public class WindActivity
     }
 
     public void fetchForecast(Location location) {
+        if (location == null) return;
         this.vane.fetchForecast(this, location.getLatitude(), location.getLatitude());
     }
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
+        float value = -sensorEvent.values[0];
         if (windFragment != null)
-            windFragment.updateHeading(-sensorEvent.values[0]);
+            windFragment.updateHeading(value);
     }
 
     @Override

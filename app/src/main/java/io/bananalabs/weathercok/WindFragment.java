@@ -56,7 +56,7 @@ public class WindFragment extends Fragment {
 
     }
 
-    public void updateHeading(Float heading) {
+    public void updateHeading(float heading) {
         this.heading = heading;
         this.mCompassView.setHeading(heading);
         this.mPointerView.setRotation(heading + direction.floatValue());
