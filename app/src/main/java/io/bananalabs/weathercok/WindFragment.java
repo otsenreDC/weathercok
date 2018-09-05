@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import io.bananalabs.weathercok.models.Vane;
 import io.bananalabs.common.views.CompassView;
 import io.bananalabs.common.views.PointerView;
+import io.bananalabs.weathercok.models.Vane;
 
 /**
  * Created by EDC on 12/8/15.

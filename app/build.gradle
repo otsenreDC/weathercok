@@ -2,11 +2,11 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
-//    buildToolsVersion "21.1.2"
+    buildToolsVersion "28.0.2"
 
     defaultConfig {
         applicationId "io.bananalabs.wombat"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 4
         versionName "1.2.0"
@@ -30,4 +30,5 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.google.android.gms:play-services:12.0.1'
     implementation 'com.android.support:support-v4:27.1.1'
+    compile project(path: ':common')
 }
