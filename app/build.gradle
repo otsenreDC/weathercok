@@ -5,27 +5,17 @@ android {
 //    buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "io.bananalabs.weathercok"
+        applicationId "io.bananalabs.wombat"
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 4
         versionName "1.2.0"
     }
 
-    signingConfigs {
-        release {
-            storeFile file("myreleasekey.keystore")
-            storePassword System.getenv("KSTOREPWD")
-            keyAlias "WeatherCokKey"
-            keyPassword System.getenv("KEYPWD")
-        }
-    }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
         }
     }
 }
