@@ -1,45 +1,33 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 27
+//    buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "io.bananalabs.weathercok"
+        applicationId "io.bananalabs.wombat"
         minSdkVersion 16
-        targetSdkVersion 23
-        versionCode 5
-        versionName "1.2.1"
-    }
-
-    signingConfigs {
-        release {
-            storeFile file("myreleasekey.keystore")
-            storePassword System.getenv("KSTOREPWD")
-            keyAlias "WeatherCokKey"
-            keyPassword System.getenv("KEYPWD")
-        }
+        targetSdkVersion 27
+        versionCode 4
+        versionName "1.2.0"
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile project(':common')
-    wearApp project(':wear')
-    compile 'com.google.code.gson:gson:2.3.1'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.android.support:cardview-v7:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile 'com.google.android.gms:play-services:8.1.0'
-    compile 'com.android.support:support-v4:23.1.1'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.google.android.gms:play-services:12.0.1'
+    implementation 'com.android.support:support-v4:27.1.1'
 }

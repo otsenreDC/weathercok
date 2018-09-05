@@ -1,8 +1,6 @@
 package io.bananalabs.weathercok;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentSender;
@@ -11,7 +9,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -38,7 +35,6 @@ import com.google.android.gms.location.LocationServices;
 import io.bananalabs.weathercok.broadcast.WindReceiver;
 import io.bananalabs.weathercok.models.Vane;
 import io.bananalabs.weathercok.service.ForecastService;
-import io.bananalabs.weathercok.service.ForecastWearService;
 
 
 public class WindActivity
@@ -59,7 +55,6 @@ public class WindActivity
     private Sensor mOrientationSensor;
     public GoogleApiClient mGoogleApiClient;
     public boolean mResolvingError;
-    private LocationManager locationManager;
     private Location mLocation;
 
     private ViewPager mPager;
@@ -85,13 +80,11 @@ public class WindActivity
         this.mapFragment = new MapActivityFragment();
 
         this.sensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
-        this.mOrientationSensor = this.sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+        this.mOrientationSensor = this.sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
         if (mOrientationSensor == null) {
             Toast.makeText(this, "This app cannot run on this device.", Toast.LENGTH_LONG).show();
             this.finish();
         }
-
-        this.locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
         this.mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
@@ -110,7 +103,6 @@ public class WindActivity
                 Location location = mLocation;
                 if (location != null) {
                     fetchForecast(location);
-                    ForecastWearService.startActionFetchForecast(getApplicationContext());
                 } else {
                     Toast.makeText(WindActivity.this, WindActivity.this.getString(R.string.msg_location_not_availble), Toast.LENGTH_SHORT).show();
                 }
@@ -161,20 +153,6 @@ public class WindActivity
     public void onResume() {
         super.onResume();
 
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            new AlertDialog.Builder(this)
-                    .setMessage(getString(R.string.msg_gps_off))
-                    .setPositiveButton(getString(R.string.btn_yes),
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                                }
-                            })
-                    .setNegativeButton(getString(R.string.btn_no), null)
-                    .show();
-        }
-
         this.sensorManager.registerListener(this, mOrientationSensor, SensorManager.SENSOR_DELAY_UI);
         this.registerReceiver(this.windReceiver, new IntentFilter(ForecastService.BROADCAST_ACTION_FORECAST));
     }
@@ -213,13 +191,15 @@ public class WindActivity
     }
 
     public void fetchForecast(Location location) {
+        if (location == null) return;
         this.vane.fetchForecast(this, location.getLatitude(), location.getLatitude());
     }
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
+        float value = -sensorEvent.values[0];
         if (windFragment != null)
-            windFragment.updateHeading((float) (Math.asin(sensorEvent.values[2]) * 2.0 * 180 / Math.PI));
+            windFragment.updateHeading(value);
     }
 
     @Override
@@ -267,7 +247,7 @@ public class WindActivity
                     break;
                 case 1:
                     updateInfoButton.animate().setInterpolator(new AccelerateDecelerateInterpolator());
-                    updateInfoButton.animate().translationY(2510);
+                    updateInfoButton.animate().translationY(180);
                     updateInfoButton.animate().setDuration(300L);
                     break;
             }
@@ -277,11 +257,9 @@ public class WindActivity
     // Accessors
     private void setLocation(Location mLocation) {
         this.mLocation = mLocation;
-        if (mLocation != null) {
-            fetchForecast(mLocation);
-            if (mapFragment != null)
-                mapFragment.setLatLng(mLocation.getLatitude(), mLocation.getLongitude());
-        }
+        fetchForecast(mLocation);
+        if (mapFragment != null)
+            mapFragment.setLatLng(mLocation.getLatitude(), mLocation.getLongitude());
     }
 
     private Location getLocation() {
